@@ -10,9 +10,13 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(CTest)
 
 find_package(NodeJS)
+find_package(V8)
 find_package(GTM)
 
-include_directories(${NODEJS_INCLUDE_DIR})
+include_directories(
+  ${NODEJS_INCLUDE_DIR}
+  ${V8_INCLUDE_DIR}
+  )
 
 add_subdirectory(Source)
 add_subdirectory(Testing)

@@ -19,3 +19,7 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/Source/setupEnvironment.sh.in
   ${EXECUTABLE_OUTPUT_PATH}/setupEnvironment.sh
   )
+
+add_library(gtm SHARED gtm_node.cpp)
+target_link_libraries(gtm ${V8_LIBRARY})
+
