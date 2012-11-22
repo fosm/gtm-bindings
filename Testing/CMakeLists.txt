@@ -31,3 +31,7 @@ add_test(Test003 ${TESTBIN}/test003)
 add_executable(test004 test004.c)
 target_link_libraries(test004 gtmshr)
 add_test(Test004 ${TESTBIN}/test004)
+
+add_executable(test005 test005.c)
+target_link_libraries(test005 gtmshr)
+add_test(Test005 ${TESTBIN}/test005)
