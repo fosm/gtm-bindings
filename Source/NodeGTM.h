@@ -15,8 +15,30 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __NodeGTM_h
+#define __NodeGTM_h
 
 #define BUILDING_NODE_EXTENSION
+
+#include <node.h>
+
+#include <iostream>
+
+extern "C" {
+#include "gtmxc_types.h"
+}
+
+// maximum length of a GT.M message
+const unsigned int maxMessageLength = 2048;
+
+// GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
+#define CALLGTM(functioncall) \
+  this->status = functioncall ;		\
+  if (0 != this->status ) {				\
+    gtm_zstatus( this->message, maxMessageLength );			\
+    std::cerr << this->message << std::endl;		\
+    gtm_exit();					\
+  }
 
 class NodeGTM
 {
@@ -26,4 +48,9 @@ public:
 
 private:
 
+  gtm_status_t status;  // return of GT.M functions
+  gtm_char_t   message[maxMessageLength];
+
 };
+
+#endif
