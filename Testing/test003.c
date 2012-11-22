@@ -11,6 +11,8 @@
      gtmget2 failure: [,M7,Z150372994,]
      $
 
+   Note that the last line is indeed an expected failure.
+
    This program is only a demonstration.  Please ensure that you have a correctly
    configured GT.M installation, correctly configured environment variables,
    with appropriate directories and files.
