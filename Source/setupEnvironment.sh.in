@@ -1,3 +1,2 @@
 #!/bin/bash
-export GTMCI=@LIBRARY_OUTPUT_PATH@/gtm_access.ci
-export gtmroutines="$gtmroutines @LIBRARY_OUTPUT_PATH@"
+export GTMCI=@EXECUTABLE_OUTPUT_PATH@/gtm_access.ci
