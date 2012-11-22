@@ -18,23 +18,10 @@
 
 #include "NodeGTM.h"
 
-using namespace v8;
+void Initialize(v8::Handle<v8::Object> target) {
 
-Handle<Value> Database(const Arguments& args) {
-  HandleScope scope;
+     NodeGTM::Initialize(target);
 
-  Local<Object> obj = Object::New();
-
-
-  obj->Set(String::NewSymbol("Version"), String::New("V6.0"));
-
-  return scope.Close(obj);
-}
-
-void Initialize(Handle<Object> target) {
-
-  target->Set(String::NewSymbol("Database"),
-      FunctionTemplate::New(Database)->GetFunction());
 }
 
 NODE_MODULE(gtm, Initialize)

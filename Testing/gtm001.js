@@ -5,7 +5,9 @@ var gtm = require('./gtm');
 var db = new gtm.Database();
 
 // Print the GTM version
-console.log(db.Version);
+console.log(db.plusOne());
+console.log(db.plusOne());
+console.log(db.plusOne());
 
 // interact with the database
 // db.set({'^Capital':'Washington'});

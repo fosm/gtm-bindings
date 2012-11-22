@@ -6,3 +6,4 @@ PATHS
 
 find_path(GTM_ROUTINES PATHS $ENV{gtmroutines})
 
+set(GTM_LIBRARY gtmshr)

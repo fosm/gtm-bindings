@@ -18,5 +18,5 @@ configure_file(
   )
 
 add_library(gtm SHARED NodeAddon.cpp NodeGTM.cpp)
-target_link_libraries(gtm ${V8_LIBRARY})
+target_link_libraries(gtm ${V8_LIBRARY} ${GTM_LIBRARY})
 

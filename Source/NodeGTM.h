@@ -40,13 +40,29 @@ const unsigned int maxMessageLength = 2048;
     gtm_exit();					\
   }
 
-class NodeGTM
+
+//
+//
+//  Interface class between Node.js API and GTM API.
+//
+//
+class NodeGTM : public node::ObjectWrap
 {
 public:
+  static void Initialize( v8::Handle<v8::Object> target);
+
+private:
   NodeGTM();
   virtual ~NodeGTM();
 
-private:
+  static v8::Handle<v8::Value> New(const v8::Arguments& args);
+  static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
+
+  double counter_;
+
+  //
+  //   Member variables used to interact with GT.M API
+  //
 
   gtm_status_t status;  // return of GT.M functions
   gtm_char_t   message[maxMessageLength];

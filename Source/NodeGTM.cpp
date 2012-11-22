@@ -19,12 +19,68 @@
 #include "NodeGTM.h"
 
 //
+//  Static function to initialize object.
+//
+void NodeGTM::Initialize( v8::Handle<v8::Object> target)
+{
+ // Prepare constructor template
+  v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(New);
+
+  tpl->SetClassName(v8::String::NewSymbol("Database"));
+
+  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+
+  // Prototype
+  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("plusOne"),
+      v8::FunctionTemplate::New(PlusOne)->GetFunction());
+
+  v8::Persistent<v8::Function> constructor =
+      v8::Persistent<v8::Function>::New( tpl->GetFunction() );
+
+  target->Set(v8::String::NewSymbol("Database"), constructor);
+}
+
+//
+//  Static Method to create a New object
+//
+v8::Handle<v8::Value> NodeGTM::New(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  NodeGTM * obj = new NodeGTM();
+
+  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
+
+  obj->Wrap(args.This());
+
+  return args.This();
+}
+
+
+//
+//  Simple method to add +1
+//
+v8::Handle<v8::Value> NodeGTM::PlusOne(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  obj->counter_ += 1;
+
+  return scope.Close(v8::Number::New(obj->counter_));
+}
+
+
+//
 // Constructor
 //
 NodeGTM::NodeGTM()
 {
   // Initialize GTM
   CALLGTM( gtm_init() );
+
+  this->counter_ = 0.0;
 }
 
 
