@@ -18,6 +18,8 @@
 
 #include "NodeGTM.h"
 
+#include <cstring>
+
 //
 //  Static function to initialize object.
 //
@@ -105,7 +107,48 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 
   NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
 
-  return scope.Close(v8::String::New("Azucar"));
+
+  gtm_char_t errorMessage[maxMessageLength];
+  gtm_char_t valueOfGlobal[maxValueLength];
+  gtm_char_t nameOfGlobal[maxValueLength];
+
+  if( args[0]->IsString() )
+    {
+    v8::Local<v8::String> name = args[0]->ToString();
+    name->WriteAscii( nameOfGlobal );
+    std::cout << "Global name " << nameOfGlobal << std::endl;
+    }
+  else
+    {
+    std::cerr << "Argument was not a String" << std::endl;
+    }
+
+  gtm_string_t p_value;
+
+  p_value.address = ( xc_char_t *) &valueOfGlobal;
+  p_value.length = maxValueLength ;
+
+  gtm_string_t p_name;
+
+  p_name.address = ( xc_char_t *) &nameOfGlobal;
+  p_name.length = maxValueLength ;
+
+  gtm_ci( "gtmget", p_name, &p_value, &errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    std::cerr << errorMessage << std::endl;
+    }
+  else
+    {
+    for (int i = 0 ; i < (int) p_value.length ; i++ )
+      {
+      std::cout << *(p_value.address+i);
+      }
+    std::cout << std::endl;
+    }
+
+  return scope.Close(v8::String::New(valueOfGlobal));
 }
 
 
