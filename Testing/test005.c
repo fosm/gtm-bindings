@@ -56,10 +56,20 @@ int main()
 
   int failed=0;
 
+  // Initialization
+  p_value.address = (xc_char_t *) &value;
+  p_value.length = 0;
+
+
 
   // Initialize GT.M runtime
   CALLGTM( gtm_init() );
 
+
+  // Initialize the GT.M access routines
+  p_value.address = ( xc_char_t *) &value ; p_value.length = maxstr ;
+  CALLGTM( gtm_ci( "gtminit", &err ));
+  if (0 != strlen( err )) fprintf( stdout, "%s\n", err);
 
 
 
