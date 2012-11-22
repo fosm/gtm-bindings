@@ -18,22 +18,23 @@
 
 #include "NodeGTM.h"
 
-//
-// Constructor
-//
-NodeGTM::NodeGTM()
-{
-  // Initialize GTM
-  CALLGTM( gtm_init() );
+using namespace v8;
+
+Handle<Value> Database(const Arguments& args) {
+  HandleScope scope;
+
+  Local<Object> obj = Object::New();
+
+
+  obj->Set(String::NewSymbol("Version"), String::New("V6.0"));
+
+  return scope.Close(obj);
 }
 
+void Initialize(Handle<Object> target) {
 
-//
-// Destructor
-//
-NodeGTM::~NodeGTM()
-{
-  // Cleanup GT.M runtime
-  CALLGTM( gtm_exit() );
+  target->Set(String::NewSymbol("Database"),
+      FunctionTemplate::New(Database)->GetFunction());
 }
 
+NODE_MODULE(gtm, Initialize)
