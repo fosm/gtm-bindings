@@ -114,13 +114,15 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
     {
     v8::Local<v8::String> name = args[0]->ToString();
     name->WriteAscii( nameOfGlobal );
-    std::cout << "Global name " << nameOfGlobal << std::endl;
     }
   else
     {
     std::cerr << "Argument was not a String" << std::endl;
     }
 
+  //
+  // Now we delegate the task to the GT.M interface
+  //
   obj->Get( nameOfGlobal );
 
   return scope.Close(v8::String::New(valueOfGlobal));
@@ -132,6 +134,8 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 //
 void NodeGTM::Get( gtm_char_t * nameOfGlobal )
 {
+  std::cout << "calling Get( " << nameOfGlobal << " ) " << std::endl;
+
   gtm_char_t errorMessage[maxMessageLength];
   gtm_char_t valueOfGlobal[maxValueLength];
 
@@ -142,23 +146,18 @@ void NodeGTM::Get( gtm_char_t * nameOfGlobal )
   p_value.length = maxValueLength ;
 
 
-  gtm_string_t p_name;
+  CALLGTM( gtm_ci( "gtmget", nameOfGlobal, &p_value, &errorMessage ));
 
-  p_name.address = ( xc_char_t *) &nameOfGlobal;
-  p_name.length = maxValueLength ;
-
-
-  CALLGTM( gtm_ci( "gtmget", p_name, &p_value, &errorMessage ));
 
   if ( strlen( errorMessage ) != 0 )
     {
-    std::cerr << errorMessage << std::endl;
+    std::cerr << "errorMessage= " << errorMessage << std::endl;
     }
   else
     {
     for (int i = 0 ; i < (int) p_value.length ; i++ )
       {
-      std::cout << *(p_value.address+i);
+      std::cout <<  *(p_value.address+i);
       }
     std::cout << std::endl;
     }
