@@ -2,9 +2,6 @@
 #  Stand alone programs that use the C bindings to GT.M
 #
 
-include_directories(${GTM_DIST})
-link_directories(${GTM_DIST})
-
 configure_file(
   ${PROJECT_SOURCE_DIR}/Source/gtm_access.ci
   ${EXECUTABLE_OUTPUT_PATH}/gtm_access.ci
@@ -20,6 +17,6 @@ configure_file(
   ${EXECUTABLE_OUTPUT_PATH}/setupEnvironment.sh
   )
 
-add_library(gtm SHARED gtm_node.cpp)
+add_library(gtm SHARED NodeGTM.cpp)
 target_link_libraries(gtm ${V8_LIBRARY})
 

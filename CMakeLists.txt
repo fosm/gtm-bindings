@@ -16,6 +16,11 @@ find_package(GTM)
 include_directories(
   ${NODEJS_INCLUDE_DIR}
   ${V8_INCLUDE_DIR}
+  ${GTM_DIST}
+  )
+
+link_directories(
+  ${GTM_DIST}
   )
 
 add_subdirectory(Source)
