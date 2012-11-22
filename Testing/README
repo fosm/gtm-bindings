@@ -1,0 +1,14 @@
+
+In order to execute the tests, the GTMCI environment variable
+must be set to point to the location of the associated .ci file.
+
+For example,
+
+Before running the "test002" executable,
+set GTMCI to the full path of the "test002.ci" file.
+
+This could be something like:
+
+      export GTMCI=/home/ibanez/bin/m.js/lib/test002.ci
+
+
