@@ -14,6 +14,11 @@
  *
  *=========================================================================*/
 
+/*
+ *   This programs just exercises the basic initialization and connection
+ *   The only expected output is: lack of error messages.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -56,7 +61,7 @@ int main()
 
 
   // Cleanup GT.M runtime
-  CALLGTM( gtm_exit( ));
+  CALLGTM( gtm_exit() );
 
   return 0;
 }
