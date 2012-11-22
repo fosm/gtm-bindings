@@ -69,6 +69,10 @@ private:
   gtm_status_t status;  // return of GT.M functions
   gtm_char_t   message[maxMessageLength];
 
+  //
+  // Internal API to interact with GT.M
+  //
+  void Get( gtm_char_t * nameOfGlobal );
 };
 
 #endif

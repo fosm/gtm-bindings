@@ -107,8 +107,6 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 
   NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
 
-
-  gtm_char_t errorMessage[maxMessageLength];
   gtm_char_t valueOfGlobal[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
 
@@ -123,17 +121,34 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
     std::cerr << "Argument was not a String" << std::endl;
     }
 
+  obj->Get( nameOfGlobal );
+
+  return scope.Close(v8::String::New(valueOfGlobal));
+}
+
+
+//
+//  Get the value of a Global from GT.M
+//
+void NodeGTM::Get( gtm_char_t * nameOfGlobal )
+{
+  gtm_char_t errorMessage[maxMessageLength];
+  gtm_char_t valueOfGlobal[maxValueLength];
+
+
   gtm_string_t p_value;
 
   p_value.address = ( xc_char_t *) &valueOfGlobal;
   p_value.length = maxValueLength ;
+
 
   gtm_string_t p_name;
 
   p_name.address = ( xc_char_t *) &nameOfGlobal;
   p_name.length = maxValueLength ;
 
-  gtm_ci( "gtmget", p_name, &p_value, &errorMessage );
+
+  CALLGTM( gtm_ci( "gtmget", p_name, &p_value, &errorMessage ));
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -147,8 +162,6 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
       }
     std::cout << std::endl;
     }
-
-  return scope.Close(v8::String::New(valueOfGlobal));
 }
 
 
