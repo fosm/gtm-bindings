@@ -12,5 +12,7 @@ include(CTest)
 find_package(NodeJS)
 find_package(GTM)
 
+include_directories(${NODEJS_INCLUDE_DIR})
+
 add_subdirectory(Source)
 add_subdirectory(Testing)
