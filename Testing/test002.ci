@@ -1,1 +1,2 @@
 getstring  :gtm_char_t*     getstring^test002()
+getsquare  :void            getsquare^test002(I:gtm_int_t*, O:gtm_int_t*)

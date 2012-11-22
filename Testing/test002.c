@@ -48,6 +48,9 @@ int main()
   gtm_char_t var[maxcode];
   gtm_char_t dststr[100];
 
+  gtm_int_t inputnumber=5;
+  gtm_int_t outputnumber=0;
+
   gtm_status_t status;
   gtm_string_t p_value;
 
@@ -61,6 +64,7 @@ int main()
   // Initialize GT.M runtime
   CALLGTM( gtm_init() );
 
+
   // Get the string from M routine
   CALLGTM( gtm_ci("getstring", dststr) )
 
@@ -70,6 +74,18 @@ int main()
     {
     failed = 1;
     }
+
+
+  // Get the string from M routine
+  CALLGTM( gtm_ci("getsquare", &inputnumber, &outputnumber) )
+
+  printf("\nreturned value: %d\n", outputnumber);
+
+  if( strcmp(dststr,"Make it so!") != 0 )
+    {
+    failed = 1;
+    }
+
 
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
