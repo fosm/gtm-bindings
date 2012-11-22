@@ -72,6 +72,14 @@ int main()
   if (0 != strlen( err )) fprintf( stdout, "%s\n", err);
 
 
+  // Set a node - note that value can be an arbitrary blob, not just a null terminated string
+  gtm_char_t washington[] = "Washington, DC";
+  p_value.address = (xc_char_t *) &washington;
+  p_value.length = strlen( "Washington, DC" );
+  CALLGTM( gtm_ci( "gtmset", "^Capital(\"United States\")", &p_value, &err ));
+  if (0 != strlen( err )) fprintf( stdout, "%s\n", err);
+
+
 
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
