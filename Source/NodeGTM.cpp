@@ -19,20 +19,22 @@
 #define BUILDING_NODE_EXTENSION
 
 #include <node.h>
-#include <v8.h>
-
-#include "NodeGTM.h"
 
 using namespace v8;
 
-Handle<Value> Method(const Arguments& args) {
+Handle<Value> Database(const Arguments& args) {
   HandleScope scope;
-  return scope.Close(String::New("world"));
+
+  Local<Object> obj = Object::New();
+
+  obj->Set(String::NewSymbol("Version"), String::New("V6.0"));
+
+  return scope.Close(obj);
 }
 
 void Initialize(Handle<Object> target) {
-  target->Set(String::NewSymbol("hello"),
-      FunctionTemplate::New(Method)->GetFunction());
+  target->Set(String::NewSymbol("Database"),
+      FunctionTemplate::New(Database)->GetFunction());
 }
 
 NODE_MODULE(gtm, Initialize)

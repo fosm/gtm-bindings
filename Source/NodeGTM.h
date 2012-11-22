@@ -21,6 +21,8 @@
 class NodeGTM
 {
 public:
+  NodeGTM();
+  virtual ~NodeGTM();
 
 private:
 
