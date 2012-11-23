@@ -76,7 +76,9 @@ void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal
 
   gtm_string_t p_value;
 
-  p_value.address = static_cast< xc_char_t *>( valueOfGlobal );
+  gtm_char_t * value = const_cast< gtm_char_t *>( valueOfGlobal );
+  p_value.address = static_cast< xc_char_t * >( value );
+
   p_value.length = strlen( valueOfGlobal );
 
   CALLGTM( gtm_ci( "gtmset", nameOfGlobal, &p_value, &errorMessage ));
