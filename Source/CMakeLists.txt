@@ -23,3 +23,10 @@ target_link_libraries(cppgtm ${GTM_LIBRARY})
 add_library(nodegtm SHARED NodeAddon.cpp NodeGTM.cpp)
 target_link_libraries(nodegtm ${V8_LIBRARY} cppgtm)
 
+add_custom_command(TARGET nodegtm
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  ARGS -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}nodegtm${CMAKE_SHARED_MODULE_SUFFIX}" "${LIBRARY_OUTPUT_PATH}/gtm.node"
+  COMMENT "Copy the shared library into a file named 'gtm.node' as expected by Node.js"
+  )
+
