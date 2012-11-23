@@ -24,6 +24,10 @@
 v8::ThrowException(v8::Exception::TypeError(v8::String::New(message))); \
     return scope.Close(v8::Undefined());
 
+#define FUNCTION_PROTOTYPE(nodeName,cppName) \
+  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol(nodeName), \
+      v8::FunctionTemplate::New(cppName)->GetFunction());
+
 
 //
 //  Static function to initialize object.
@@ -38,17 +42,10 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   // Prototypes
-  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("get"),
-      v8::FunctionTemplate::New(Get)->GetFunction());
-
-  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("set"),
-      v8::FunctionTemplate::New(Set)->GetFunction());
-
-  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("kill"),
-      v8::FunctionTemplate::New(Kill)->GetFunction());
-
-  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("order"),
-      v8::FunctionTemplate::New(Order)->GetFunction());
+  FUNCTION_PROTOTYPE("get",Get);
+  FUNCTION_PROTOTYPE("set",Set);
+  FUNCTION_PROTOTYPE("kill",Kill);
+  FUNCTION_PROTOTYPE("order",Order);
 
   v8::Persistent<v8::Function> constructor =
       v8::Persistent<v8::Function>::New( tpl->GetFunction() );
