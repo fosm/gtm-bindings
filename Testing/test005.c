@@ -45,11 +45,6 @@ int main()
   gtm_char_t err[maxmsg];
   gtm_char_t msg[maxmsg];
   gtm_char_t value[maxstr];
-  gtm_char_t var[maxcode];
-  gtm_char_t dststr[100];
-
-  gtm_int_t inputnumber=5;
-  gtm_int_t outputnumber=0;
 
   gtm_status_t status;
   gtm_string_t p_value;

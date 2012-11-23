@@ -17,6 +17,9 @@
 *=========================================================================*/
 %module GTM
 
+// Remove some warnings
+#pragma SWIG nowarn=511
+
 // Use exceptions
 %include "exception.i"
 

@@ -26,9 +26,7 @@
 #include "gtmxc_types.h"
 
 // GT.M limits
-#define maxcode 8192     // maximum length of a line of code for the compiler / variable name
 #define maxmsg  2048     // maximum length of a GT.M message
-#define maxstr  1048576  // maximum length of a value
 
 // GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
 #define CALLGTM(xyz) status = xyz ;		\
@@ -43,18 +41,9 @@
 int main()
 {
 
-  gtm_char_t err[maxmsg];
   gtm_char_t msg[maxmsg];
-  gtm_char_t value[maxstr];
-  gtm_char_t var[maxcode];
 
   gtm_status_t status;
-  gtm_string_t p_value;
-
-  // Initialization
-  p_value.address = (xc_char_t *) &value;
-  p_value.length = 0;
-
 
   // Initialize GT.M runtime
   CALLGTM( gtm_init() );

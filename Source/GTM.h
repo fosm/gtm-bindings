@@ -26,8 +26,8 @@ extern "C" {
 }
 
 // maximum length of a GT.M message
-const unsigned int maxMessageLength = 2048;
-const unsigned int maxValueLength = 1048576;
+#define maxMessageLength 2048
+#define maxValueLength 1048576
 
 // GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
 #define CALLGTM(functioncall) \

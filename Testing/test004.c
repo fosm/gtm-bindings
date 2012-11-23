@@ -36,7 +36,7 @@
 int main() {
 
   int i;
-  gtm_char_t err[maxmsg], msg[maxmsg], value[maxstr], var[maxcode];
+  gtm_char_t err[maxmsg], msg[maxmsg], value[maxstr];
   gtm_status_t status;
   gtm_string_t p_value;
 

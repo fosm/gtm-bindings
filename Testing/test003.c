@@ -57,7 +57,7 @@
 int main() {
 
   ci_name_descriptor gtmget, gtminit, gtmkill, gtmlock, gtmorder, gtmquery, gtmset, gtmxecute;
-  gtm_char_t err[maxmsg], msg[maxmsg], value[maxstr], var[maxcode];
+  gtm_char_t err[maxmsg], msg[maxmsg], value[maxstr];
   gtm_status_t status;
   gtm_string_t p_value, gtmget_str, gtminit_str, gtmkill_str, gtmlock_str, gtmorder_str, gtmquery_str, gtmset_str, gtmxecute_str;
   int i;
