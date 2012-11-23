@@ -38,9 +38,6 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   // Prototypes
-  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("plusOne"),
-      v8::FunctionTemplate::New(PlusOne)->GetFunction());
-
   tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("get"),
       v8::FunctionTemplate::New(Get)->GetFunction());
 
@@ -89,20 +86,6 @@ NodeGTM::~NodeGTM()
 {
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
-}
-
-//
-//  Simple method to add +1
-//
-v8::Handle<v8::Value> NodeGTM::PlusOne(const v8::Arguments& args)
-{
-  v8::HandleScope scope;
-
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
-
-  obj->counter_ += 1;
-
-  return scope.Close(v8::Number::New(obj->counter_));
 }
 
 

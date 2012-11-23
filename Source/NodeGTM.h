@@ -57,7 +57,6 @@ private:
   virtual ~NodeGTM();
 
   static v8::Handle<v8::Value>  New(const v8::Arguments& args);
-  static v8::Handle<v8::Value>  PlusOne(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Get(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Set(const v8::Arguments& args);
 
