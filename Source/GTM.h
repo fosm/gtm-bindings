@@ -19,6 +19,7 @@
 #define __GTM_h
 
 #include <cstddef>
+#include <string>
 
 extern "C" {
 #include "gtmxc_types.h"
@@ -30,10 +31,10 @@ const unsigned int maxValueLength = 1048576;
 
 // GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
 #define CALLGTM(functioncall) \
-  this->status = functioncall ;		\
-  if (0 != this->status ) {				\
-    gtm_zstatus( this->message, maxMessageLength );			\
-    std::cerr << this->message << std::endl;		\
+  this->functionStatus = functioncall ;		\
+  if (0 != this->functionStatus ) {				\
+    gtm_zstatus( this->statusMessage, maxMessageLength );			\
+    std::cerr << this->statusMessage << std::endl;		\
     gtm_exit();					\
   }
 
@@ -58,13 +59,35 @@ public:
   void Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
   void Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
 
+  //
+  //  Methods using std::string for arguments and Exceptions for error management.
+  //
+  void Get( const std::string & nameOfGlobal, std::string & valueOfGlobal );
+  void Set( const std::string & nameOfGlobal, const std::string & valueOfGlobal );
+  void Kill( const std::string & nameOfGlobal );
+  void Order( const std::string & nameOfGlobal, std::string & valueOfIndex );
+  void Query( const std::string & nameOfGlobal, std::string & valueOfIndex );
+
+
 private:
+
   //
   //   Member variables used to interact with GT.M API
   //
 
-  gtm_status_t status;  // return of GT.M functions
-  gtm_char_t   message[maxMessageLength];
+
+  // return of GT.M functions
+  gtm_status_t  functionStatus;
+
+  //
+  //   The use of these member variables assumes that
+  //   this class is not used in a multi-threaded environment.
+  //
+  gtm_char_t   statusMessage[maxMessageLength];
+  gtm_char_t   nameOfGlobal[maxValueLength];
+  gtm_char_t   valueOfGlobal[maxValueLength];
+  gtm_char_t   valueOfIndex[maxValueLength];
+  gtm_char_t   errorMessage[maxValueLength];
 };
 
 #endif

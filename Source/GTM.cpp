@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "GTM.h"
+#include "GTMException.h"
 
 #include <iostream>
 #include <cstring>
@@ -44,21 +45,21 @@ GTM::~GTM()
 //
 //  Get the value of a Global from GT.M
 //
-void GTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
+void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Get( " << nameOfGlobal << " ) " << std::endl;
+  std::cout << "calling Get( " << globalName << " ) " << std::endl;
 
   gtm_string_t p_value;
 
-  p_value.address = ( xc_char_t *) &valueOfGlobal;
+  p_value.address = ( xc_char_t *) &globalValue;
   p_value.length = maxValueLength ;
 
-  CALLGTM( gtm_ci( "gtmget", nameOfGlobal, &p_value, &errorMessage ));
+  CALLGTM( gtm_ci( "gtmget", globalName, &p_value, &errorMessage ));
 }
 
 
 //
-//  Get the value of a Global from GT.M
+//  Set the value of a Global from GT.M
 //
 void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
 {
@@ -113,4 +114,61 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmquery", nameOfGlobal, &p_value, &errorMessage ));
+}
+
+
+//
+//  Get the value of a Global from GT.M
+//
+void GTM::Get( const std::string & globalName, std::string & globalValue )
+{
+  this->Get( globalName.c_str(), this->valueOfGlobal, this->errorMessage );
+
+  globalValue = this->valueOfGlobal;
+}
+
+
+//
+//  Set the value of a Global from GT.M
+//
+void GTM::Set( const std::string & globalName, const std::string & globalValue )
+{
+  this->Set( globalName.c_str(), globalValue.c_str(), this->errorMessage );
+}
+
+
+//
+//  Kill a Global in GT.M
+//
+void GTM::Kill( const std::string & globalName )
+{
+  this->Kill( globalName.c_str(), this->errorMessage );
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+void GTM::Order( const std::string & globalName, std::string & indexValue )
+{
+  this->Order( globalName.c_str(), this->valueOfIndex, this->errorMessage );
+
+  indexValue = this->valueOfIndex;
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+void GTM::Query( const std::string & globalName, std::string & indexValue )
+{
+  this->Query( globalName.c_str(), this->valueOfIndex, this->errorMessage );
+
+  if( strlen( this->errorMessage ) != 0 )
+    {
+    GTMException excp( this->errorMessage );
+    throw(excp);
+    }
+
+  indexValue = this->valueOfIndex;
 }
