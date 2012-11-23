@@ -14,7 +14,12 @@ db.set('^Fibonacci(6)','8');
 
 // Get the index that follows 4, it should be 5.
 var nextindex = db.order('^Fibonacci(4)');
-console.log('next index ='+nextindex);
+
+// Set a global
+db.set('^Person("name","address","phone")','"John Lennon"');
+
+// Get the index that follows "address", it should be "phone".
+var nextentry = db.query('^Person("name","address")');
 
 // Set a global
 db.set('^Apoptosis','Life is short');

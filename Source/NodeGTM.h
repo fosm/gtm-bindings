@@ -61,6 +61,7 @@ private:
   static v8::Handle<v8::Value>  Set(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Kill(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Order(const v8::Arguments& args);
+  static v8::Handle<v8::Value>  Query(const v8::Arguments& args);
 
   double counter_;
 
@@ -78,6 +79,7 @@ private:
   void Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
   void Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage );
   void Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
+  void Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
 };
 
 #endif
