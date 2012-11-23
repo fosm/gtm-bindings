@@ -22,26 +22,6 @@
 
 #include <node.h>
 
-#include <iostream>
-
-extern "C" {
-#include "gtmxc_types.h"
-}
-
-// maximum length of a GT.M message
-const unsigned int maxMessageLength = 2048;
-const unsigned int maxValueLength = 1048576;
-
-// GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
-#define CALLGTM(functioncall) \
-  this->status = functioncall ;		\
-  if (0 != this->status ) {				\
-    gtm_zstatus( this->message, maxMessageLength );			\
-    std::cerr << this->message << std::endl;		\
-    gtm_exit();					\
-  }
-
-
 //
 //
 //  Interface class between Node.js API and GTM API.
@@ -63,23 +43,7 @@ private:
   static v8::Handle<v8::Value>  Order(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Query(const v8::Arguments& args);
 
-  double counter_;
-
-  //
-  //   Member variables used to interact with GT.M API
-  //
-
-  gtm_status_t status;  // return of GT.M functions
-  gtm_char_t   message[maxMessageLength];
-
-  //
-  // Internal API to interact with GT.M
-  //
-  void Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
-  void Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
-  void Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage );
-  void Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
-  void Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
+  void * gtmConnection;
 };
 
 #endif

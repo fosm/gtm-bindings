@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "NodeGTM.h"
+#include "GTM.h"
 
 #include <cstring>
 
@@ -34,7 +35,7 @@ v8::ThrowException(v8::Exception::TypeError(v8::String::New(message))); \
 //
 void NodeGTM::Initialize( v8::Handle<v8::Object> target)
 {
- // Prepare constructor template
+  // Prepare constructor template
   v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(New);
 
   tpl->SetClassName(v8::String::NewSymbol("Database"));
@@ -63,8 +64,6 @@ v8::Handle<v8::Value> NodeGTM::New(const v8::Arguments& args)
 
   NodeGTM * obj = new NodeGTM();
 
-  obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
-
   obj->Wrap(args.This());
 
   return args.This();
@@ -76,10 +75,7 @@ v8::Handle<v8::Value> NodeGTM::New(const v8::Arguments& args)
 //
 NodeGTM::NodeGTM()
 {
-  // Initialize GTM
-  CALLGTM( gtm_init() );
-
-  this->counter_ = 0.0;
+  this->gtmConnection = new GTM();
 }
 
 
@@ -88,8 +84,12 @@ NodeGTM::NodeGTM()
 //
 NodeGTM::~NodeGTM()
 {
-  // Cleanup GT.M runtime
-  CALLGTM( gtm_exit() );
+  if( this->gtmConnection )
+    {
+    GTM * gtm = static_cast< GTM * >( this->gtmConnection );
+    delete gtm;
+    this->gtmConnection = NULL;
+    }
 }
 
 
@@ -99,8 +99,6 @@ NodeGTM::~NodeGTM()
 v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 {
   v8::HandleScope scope;
-
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
 
   gtm_char_t valueOfGlobal[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
@@ -119,7 +117,11 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Get( nameOfGlobal, valueOfGlobal, errorMessage );
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Get( nameOfGlobal, valueOfGlobal, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -131,39 +133,22 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 
 
 //
-//  Get the value of a Global from GT.M
-//
-void NodeGTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
-{
-  std::cout << "calling Get( " << nameOfGlobal << " ) " << std::endl;
-
-  gtm_string_t p_value;
-
-  p_value.address = ( xc_char_t *) &valueOfGlobal;
-  p_value.length = maxValueLength ;
-
-
-  CALLGTM( gtm_ci( "gtmget", nameOfGlobal, &p_value, &errorMessage ));
-}
-
-
-//
 //  Set the value of a Global from GT.M
 //
 v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
 {
   v8::HandleScope scope;
 
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
-
   gtm_char_t valueOfGlobal[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
   gtm_char_t errorMessage[maxValueLength];
+
 
   if( args.Length() < 2 )
     {
     THROW_EXCEPTION("Wrong number of arguments. Expected two");
     }
+
 
   if( args[0]->IsString() )
     {
@@ -189,7 +174,11 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Set( nameOfGlobal, valueOfGlobal, errorMessage );
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Set( nameOfGlobal, valueOfGlobal, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -204,38 +193,21 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
 
 
 //
-//  Get the value of a Global from GT.M
-//
-void NodeGTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
-{
-  std::cout << "calling Set( " << nameOfGlobal << " ) = " << valueOfGlobal << std::endl;
-
-  gtm_string_t p_value;
-
-  p_value.address = ( xc_char_t *) &valueOfGlobal;
-  p_value.length = strlen( valueOfGlobal );
-
-
-  CALLGTM( gtm_ci( "gtmset", nameOfGlobal, &p_value, &errorMessage ));
-}
-
-
-//
 //  Kill (delete) a Global through GT.M
 //
 v8::Handle<v8::Value> NodeGTM::Kill(const v8::Arguments& args)
 {
   v8::HandleScope scope;
 
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
-
   gtm_char_t nameOfGlobal[maxValueLength];
   gtm_char_t errorMessage[maxValueLength];
+
 
   if( args.Length() != 1 )
     {
     THROW_EXCEPTION("Wrong number of arguments. Expected one");
     }
+
 
   if( args[0]->IsString() )
     {
@@ -247,10 +219,15 @@ v8::Handle<v8::Value> NodeGTM::Kill(const v8::Arguments& args)
     THROW_EXCEPTION("First argument was not a String");
     }
 
+
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Kill( nameOfGlobal, errorMessage );
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Kill( nameOfGlobal, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -265,28 +242,16 @@ v8::Handle<v8::Value> NodeGTM::Kill(const v8::Arguments& args)
 
 
 //
-//  Kill a Global in GT.M
-//
-void NodeGTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
-{
-  std::cout << "calling Kill( " << nameOfGlobal << " ) " << std::endl;
-
-  CALLGTM( gtm_ci( "gtmkill", nameOfGlobal, &errorMessage ));
-}
-
-
-//
 //  Get the value of the next index in a Global from GT.M
 //
 v8::Handle<v8::Value> NodeGTM::Order(const v8::Arguments& args)
 {
   v8::HandleScope scope;
 
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
-
   gtm_char_t valueOfIndex[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
   gtm_char_t errorMessage[maxMessageLength];
+
 
   if( args[0]->IsString() )
     {
@@ -298,10 +263,15 @@ v8::Handle<v8::Value> NodeGTM::Order(const v8::Arguments& args)
     THROW_EXCEPTION("Argument was not a String");
     }
 
+
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Order( nameOfGlobal, valueOfIndex, errorMessage );
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Order( nameOfGlobal, valueOfIndex, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -309,23 +279,6 @@ v8::Handle<v8::Value> NodeGTM::Order(const v8::Arguments& args)
     }
 
   return scope.Close(v8::String::New( valueOfIndex ));
-}
-
-
-//
-//  Get the value of the next index in a Global from GT.M
-//
-void NodeGTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
-{
-  std::cout << "calling Order( " << nameOfGlobal << " ) " << std::endl;
-
-  gtm_string_t p_value;
-
-  p_value.address = ( xc_char_t *) &valueOfIndex;
-  p_value.length = maxValueLength ;
-
-
-  CALLGTM( gtm_ci( "gtmorder", nameOfGlobal, &p_value, &errorMessage ));
 }
 
 
@@ -336,11 +289,10 @@ v8::Handle<v8::Value> NodeGTM::Query(const v8::Arguments& args)
 {
   v8::HandleScope scope;
 
-  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
-
   gtm_char_t valueOfIndex[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
   gtm_char_t errorMessage[maxMessageLength];
+
 
   if( args[0]->IsString() )
     {
@@ -352,10 +304,15 @@ v8::Handle<v8::Value> NodeGTM::Query(const v8::Arguments& args)
     THROW_EXCEPTION("Argument was not a String");
     }
 
+
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Query( nameOfGlobal, valueOfIndex, errorMessage );
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Query( nameOfGlobal, valueOfIndex, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {
@@ -364,22 +321,4 @@ v8::Handle<v8::Value> NodeGTM::Query(const v8::Arguments& args)
 
   return scope.Close(v8::String::New( valueOfIndex ));
 }
-
-
-//
-//  Get the value of the next index in a Global from GT.M
-//
-void NodeGTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
-{
-  std::cout << "calling Query( " << nameOfGlobal << " ) " << std::endl;
-
-  gtm_string_t p_value;
-
-  p_value.address = ( xc_char_t *) &valueOfIndex;
-  p_value.length = maxValueLength ;
-
-
-  CALLGTM( gtm_ci( "gtmquery", nameOfGlobal, &p_value, &errorMessage ));
-}
-
 
