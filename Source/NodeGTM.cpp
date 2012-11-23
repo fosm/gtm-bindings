@@ -123,22 +123,20 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Get( nameOfGlobal );
+  obj->Get( nameOfGlobal, valueOfGlobal );
 
-  return scope.Close(v8::String::New(valueOfGlobal));
+  return scope.Close(v8::String::New( valueOfGlobal ));
 }
 
 
 //
 //  Get the value of a Global from GT.M
 //
-void NodeGTM::Get( gtm_char_t * nameOfGlobal )
+void NodeGTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal )
 {
   std::cout << "calling Get( " << nameOfGlobal << " ) " << std::endl;
 
   gtm_char_t errorMessage[maxMessageLength];
-  gtm_char_t valueOfGlobal[maxValueLength];
-
 
   gtm_string_t p_value;
 
@@ -157,9 +155,9 @@ void NodeGTM::Get( gtm_char_t * nameOfGlobal )
     {
     for (int i = 0 ; i < (int) p_value.length ; i++ )
       {
-      std::cout <<  *(p_value.address+i);
+      std::cerr <<  *(p_value.address+i);
       }
-    std::cout << std::endl;
+    std::cerr << std::endl;
     }
 }
 

@@ -72,7 +72,7 @@ private:
   //
   // Internal API to interact with GT.M
   //
-  void Get( gtm_char_t * nameOfGlobal );
+  void Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal );
 };
 
 #endif
