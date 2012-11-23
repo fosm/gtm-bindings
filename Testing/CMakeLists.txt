@@ -59,3 +59,7 @@ add_test(GTM004 ${TESTBIN}/gtm004)
 add_executable(gtm005 gtm005.cpp)
 target_link_libraries(gtm005 cppgtm)
 add_test(GTM005 ${TESTBIN}/gtm005)
+
+add_executable(gtm006 gtm006.cpp)
+target_link_libraries(gtm006 cppgtm)
+add_test(GTM006 ${TESTBIN}/gtm006)
