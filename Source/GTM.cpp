@@ -60,7 +60,7 @@ void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char
 
   gtm_string_t p_value;
 
-  p_value.address = ( xc_char_t *) &globalValue;
+  p_value.address = static_cast< xc_char_t *>( globalValue );
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmget", globalName, &p_value, &errorMessage ));
@@ -76,7 +76,7 @@ void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal
 
   gtm_string_t p_value;
 
-  p_value.address = ( xc_char_t *) &valueOfGlobal;
+  p_value.address = static_cast< xc_char_t *>( valueOfGlobal );
   p_value.length = strlen( valueOfGlobal );
 
   CALLGTM( gtm_ci( "gtmset", nameOfGlobal, &p_value, &errorMessage ));
@@ -103,7 +103,7 @@ void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 
   gtm_string_t p_value;
 
-  p_value.address = ( xc_char_t *) &valueOfIndex;
+  p_value.address = static_cast< xc_char_t *>( valueOfIndex );
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmorder", nameOfGlobal, &p_value, &errorMessage ));
@@ -119,7 +119,7 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 
   gtm_string_t p_value;
 
-  p_value.address = ( xc_char_t *) &valueOfIndex;
+  p_value.address = static_cast< xc_char_t *>( valueOfIndex );
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmquery", nameOfGlobal, &p_value, &errorMessage ));
