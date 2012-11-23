@@ -19,6 +19,8 @@
 #include "GTM.h"
 #include "GTMException.h"
 
+#include "mjsConfigure.h"
+
 #include <iostream>
 #include <cstring>
 
@@ -48,6 +50,24 @@ GTM::~GTM()
 {
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
+}
+
+
+//
+// Return the Version of the Interface
+//
+const char * GTM::Version() const
+{
+  return MJS_VERSION_STRING;
+}
+
+
+//
+// Return basic information about the Interface
+//
+const char * GTM::About() const
+{
+  return "\nDeveloped by multiple contributors\nDistributed under the Apache 2.0 License.\n";
 }
 
 

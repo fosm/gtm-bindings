@@ -15,29 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __mjsConfigure_h
+#define __mjsConfigure_h
 
-#include "GTM.h"
+#define MJS_VERSION_MAJOR @MJS_VERSION_MAJOR@
+#define MJS_VERSION_MINOR @MJS_VERSION_MINOR@
+#define MJS_VERSION_PATCH @MJS_VERSION_PATCH@
+#define MJS_VERSION_STRING "@MJS_VERSION_STRING@"
 
-#include <cstdlib>
-#include <iostream>
-
-//
-//  Simply test constructor, destructor and connection to GT.M
-//
-
-int main( int argc, char * argv [] )
-{
-  GTM * gtm = new GTM();
-
-  const char * version = gtm->Version();
-
-  std::cout << "Version = " << version << std::endl;
-
-  const char * about = gtm->About();
-
-  std::cout << "About = " << about << std::endl;
-
-  delete gtm;
-
-  return EXIT_SUCCESS;
-}
+#endif

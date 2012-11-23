@@ -4,6 +4,13 @@ var gtm = require('./gtm');
 // create gtm database connection
 var db = new gtm.Database();
 
+console.log("\n");
+console.log('Node.js Version: ' + process.version);
+
+console.log('Version: ' + db.version());
+
+console.log('About: ' + db.about());
+
 // Set a global
 db.set('^Fibonacci(1)','1');
 db.set('^Fibonacci(2)','1');

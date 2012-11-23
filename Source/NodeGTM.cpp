@@ -48,6 +48,8 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   FUNCTION_PROTOTYPE("kill",Kill);
   FUNCTION_PROTOTYPE("order",Order);
   FUNCTION_PROTOTYPE("query",Query);
+  FUNCTION_PROTOTYPE("version",Version);
+  FUNCTION_PROTOTYPE("about",About);
 
   v8::Persistent<v8::Function> constructor =
       v8::Persistent<v8::Function>::New( tpl->GetFunction() );
@@ -90,6 +92,46 @@ NodeGTM::~NodeGTM()
     delete gtm;
     this->gtmConnection = NULL;
     }
+}
+
+
+//
+//  Get the Version of the Interface
+//
+v8::Handle<v8::Value> NodeGTM::Version(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  //
+  // Now we delegate the task to the GT.M interface
+  //
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  const char * version = gtm->Version();
+
+  return scope.Close(v8::String::New( version ));
+}
+
+
+//
+//  Get the Basic Information about the Interface
+//
+v8::Handle<v8::Value> NodeGTM::About(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  //
+  // Now we delegate the task to the GT.M interface
+  //
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  const char * about = gtm->About();
+
+  return scope.Close(v8::String::New( about ));
 }
 
 

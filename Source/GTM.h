@@ -50,6 +50,10 @@ public:
   GTM();
   virtual ~GTM();
 
+  // Reporting about itsefl
+  const char * Version() const;
+  const char * About() const;
+
   //
   // Methods to interact with GT.M
   //
