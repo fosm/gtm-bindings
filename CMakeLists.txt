@@ -17,6 +17,7 @@ include_directories(
   ${NODEJS_INCLUDE_DIR}
   ${V8_INCLUDE_DIR}
   ${GTM_DIST}
+  ${PROJECT_SOURCE_DIR}/Source
   )
 
 link_directories(

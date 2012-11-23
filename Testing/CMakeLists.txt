@@ -39,3 +39,12 @@ add_test(Test005 ${TESTBIN}/test005)
 add_executable(node001 node001.cpp)
 target_link_libraries(node001 gtmshr)
 add_test(Node001 ${TESTBIN}/node001)
+
+add_executable(gtm001 gtm001.cpp)
+target_link_libraries(gtm001 cppgtm)
+add_test(GTM001 ${TESTBIN}/gtm001)
+
+add_executable(gtm002 gtm002.cpp)
+target_link_libraries(gtm002 cppgtm)
+add_test(GTM002 ${TESTBIN}/gtm002)
+
