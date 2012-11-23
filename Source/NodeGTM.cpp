@@ -20,6 +20,11 @@
 
 #include <cstring>
 
+#define THROW_EXCEPTION(message) \
+v8::ThrowException(v8::Exception::TypeError(v8::String::New(message))); \
+    return scope.Close(v8::Undefined());
+
+
 //
 //  Static function to initialize object.
 //
@@ -112,6 +117,7 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 
   gtm_char_t valueOfGlobal[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
+  gtm_char_t errorMessage[maxMessageLength];
 
   if( args[0]->IsString() )
     {
@@ -120,13 +126,18 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
     }
   else
     {
-    std::cerr << "Argument was not a String" << std::endl;
+    THROW_EXCEPTION("Argument was not a String");
     }
 
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Get( nameOfGlobal, valueOfGlobal );
+  obj->Get( nameOfGlobal, valueOfGlobal, errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    THROW_EXCEPTION( errorMessage );
+    }
 
   return scope.Close(v8::String::New( valueOfGlobal ));
 }
@@ -135,11 +146,9 @@ v8::Handle<v8::Value> NodeGTM::Get(const v8::Arguments& args)
 //
 //  Get the value of a Global from GT.M
 //
-void NodeGTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal )
+void NodeGTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
 {
   std::cout << "calling Get( " << nameOfGlobal << " ) " << std::endl;
-
-  gtm_char_t errorMessage[maxMessageLength];
 
   gtm_string_t p_value;
 
@@ -148,20 +157,6 @@ void NodeGTM::Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal )
 
 
   CALLGTM( gtm_ci( "gtmget", nameOfGlobal, &p_value, &errorMessage ));
-
-
-  if ( strlen( errorMessage ) != 0 )
-    {
-    std::cerr << "errorMessage= " << errorMessage << std::endl;
-    }
-  else
-    {
-    for (int i = 0 ; i < (int) p_value.length ; i++ )
-      {
-      std::cerr <<  *(p_value.address+i);
-      }
-    std::cerr << std::endl;
-    }
 }
 
 
@@ -176,10 +171,11 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
 
   gtm_char_t valueOfGlobal[maxValueLength];
   gtm_char_t nameOfGlobal[maxValueLength];
+  gtm_char_t errorMessage[maxValueLength];
 
   if( args.Length() < 2 )
     {
-    std::cerr << "Wrong number of arguments. Expected two" << std::endl;
+    THROW_EXCEPTION("Wrong number of arguments. Expected two");
     }
 
   if( args[0]->IsString() )
@@ -189,7 +185,7 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
     }
   else
     {
-    std::cerr << "First argument was not a String" << std::endl;
+    THROW_EXCEPTION("First argument was not a String");
     }
 
 
@@ -200,13 +196,18 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
     }
   else
     {
-    std::cerr << "Second argument was not a String" << std::endl;
+    THROW_EXCEPTION("Second argument was not a String");
     }
 
   //
   // Now we delegate the task to the GT.M interface
   //
-  obj->Set( nameOfGlobal, valueOfGlobal );
+  obj->Set( nameOfGlobal, valueOfGlobal, errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    THROW_EXCEPTION( errorMessage );
+    }
 
   //
   // TODO: Discuss with community if this return is a good idea...
@@ -218,11 +219,9 @@ v8::Handle<v8::Value> NodeGTM::Set(const v8::Arguments& args)
 //
 //  Get the value of a Global from GT.M
 //
-void NodeGTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal )
+void NodeGTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
 {
   std::cout << "calling Set( " << nameOfGlobal << " ) = " << valueOfGlobal << std::endl;
-
-  gtm_char_t errorMessage[maxMessageLength];
 
   gtm_string_t p_value;
 
@@ -231,20 +230,6 @@ void NodeGTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGl
 
 
   CALLGTM( gtm_ci( "gtmset", nameOfGlobal, &p_value, &errorMessage ));
-
-
-  if ( strlen( errorMessage ) != 0 )
-    {
-    std::cerr << "errorMessage= " << errorMessage << std::endl;
-    }
-  else
-    {
-    for (int i = 0 ; i < (int) p_value.length ; i++ )
-      {
-      std::cerr <<  *(p_value.address+i);
-      }
-    std::cerr << std::endl;
-    }
 }
 
 

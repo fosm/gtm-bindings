@@ -73,8 +73,8 @@ private:
   //
   // Internal API to interact with GT.M
   //
-  void Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal );
-  void Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal );
+  void Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
+  void Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
 };
 
 #endif
