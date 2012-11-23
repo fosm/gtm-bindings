@@ -44,12 +44,13 @@ int main( int argc, char * argv [] )
 
     std::cout << globalName << " = " << getValue << std::endl;
 
+    gtm.Kill( globalName );
+
     }
   catch( GTMException & excp )
     {
     std::cerr << excp.what() << std::endl;
     }
-
 
   return EXIT_SUCCESS;
 }
