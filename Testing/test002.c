@@ -44,12 +44,7 @@ int main()
 
   gtm_char_t err[maxmsg];
   gtm_char_t msg[maxmsg];
-  gtm_char_t value[maxstr];
-  gtm_char_t var[maxcode];
-  gtm_char_t dststr[100];
-
-  gtm_int_t inputnumber=5;
-  gtm_int_t outputnumber=0;
+  gtm_char_t * value = "Washington";
 
   gtm_status_t status;
   gtm_string_t p_value;
@@ -57,35 +52,15 @@ int main()
   int failed=0;
 
   // Initialization
-  p_value.address = (xc_char_t *) &value;
-  p_value.length = 0;
+  p_value.address = (xc_char_t *) value;
+  p_value.length = strlen(value);
 
 
   // Initialize GT.M runtime
   CALLGTM( gtm_init() );
 
-
-  // Get the string from M routine
-  CALLGTM( gtm_ci("getstring", dststr) )
-
-  printf("\nstring returned: %s\n", dststr);
-
-  if( strcmp(dststr,"Make it so!") != 0 )
-    {
-    failed = 1;
-    }
-
-
-  // Get the string from M routine
-  CALLGTM( gtm_ci("getsquare", &inputnumber, &outputnumber) )
-
-  printf("\nreturned value: %d\n", outputnumber);
-
-  if( strcmp(dststr,"Make it so!") != 0 )
-    {
-    failed = 1;
-    }
-
+  // Set a global
+  CALLGTM( gtm_ci( "gtmset", "^Capital", &p_value, &err ) );
 
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
