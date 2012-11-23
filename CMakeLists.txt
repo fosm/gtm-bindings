@@ -58,6 +58,9 @@ include(CPack)
 #
 include(CTest)
 
+option( WRAP_PYTHON "Wrap Python" OFF)
 
 add_subdirectory(Source)
 add_subdirectory(Testing)
+add_subdirectory(Wrapping)
+

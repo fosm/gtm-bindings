@@ -17,3 +17,8 @@ In Linux you need to have installed:
    sudo apt-get install npm
    sudo apt-get install build-essential
 
+If you want to wrap for Python you should also do
+
+   sudo apt-get install python-dev
+   sudo apt-get install swig
+
