@@ -43,3 +43,8 @@
 
 // Language Specific Sections
 %include Python.i
+
+
+// Classes to be wrapped
+%include "GTM.h"
+
