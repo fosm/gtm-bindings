@@ -22,6 +22,15 @@
 #include <iostream>
 #include <cstring>
 
+
+#define  THROW_EXCEPTION_IF_ERROR( errorMessage ) \
+  if( strlen( errorMessage ) != 0 ) \
+    { \
+    GTMException excp( errorMessage ); \
+    throw(excp); \
+    }
+
+
 //
 // Constructor
 //
@@ -124,6 +133,8 @@ void GTM::Get( const std::string & globalName, std::string & globalValue )
 {
   this->Get( globalName.c_str(), this->valueOfGlobal, this->errorMessage );
 
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
   globalValue = this->valueOfGlobal;
 }
 
@@ -134,6 +145,8 @@ void GTM::Get( const std::string & globalName, std::string & globalValue )
 void GTM::Set( const std::string & globalName, const std::string & globalValue )
 {
   this->Set( globalName.c_str(), globalValue.c_str(), this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 }
 
 
@@ -143,6 +156,8 @@ void GTM::Set( const std::string & globalName, const std::string & globalValue )
 void GTM::Kill( const std::string & globalName )
 {
   this->Kill( globalName.c_str(), this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 }
 
 
@@ -152,6 +167,8 @@ void GTM::Kill( const std::string & globalName )
 void GTM::Order( const std::string & globalName, std::string & indexValue )
 {
   this->Order( globalName.c_str(), this->valueOfIndex, this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 
   indexValue = this->valueOfIndex;
 }
@@ -164,11 +181,7 @@ void GTM::Query( const std::string & globalName, std::string & indexValue )
 {
   this->Query( globalName.c_str(), this->valueOfIndex, this->errorMessage );
 
-  if( strlen( this->errorMessage ) != 0 )
-    {
-    GTMException excp( this->errorMessage );
-    throw(excp);
-    }
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 
   indexValue = this->valueOfIndex;
 }
