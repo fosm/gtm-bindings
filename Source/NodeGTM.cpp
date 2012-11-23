@@ -44,6 +44,9 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("set"),
       v8::FunctionTemplate::New(Set)->GetFunction());
 
+  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("kill"),
+      v8::FunctionTemplate::New(Kill)->GetFunction());
+
   v8::Persistent<v8::Function> constructor =
       v8::Persistent<v8::Function>::New( tpl->GetFunction() );
 
@@ -213,6 +216,61 @@ void NodeGTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGl
 
 
   CALLGTM( gtm_ci( "gtmset", nameOfGlobal, &p_value, &errorMessage ));
+}
+
+
+//
+//  Kill (delete) a Global through GT.M
+//
+v8::Handle<v8::Value> NodeGTM::Kill(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  gtm_char_t nameOfGlobal[maxValueLength];
+  gtm_char_t errorMessage[maxValueLength];
+
+  if( args.Length() != 1 )
+    {
+    THROW_EXCEPTION("Wrong number of arguments. Expected one");
+    }
+
+  if( args[0]->IsString() )
+    {
+    v8::Local<v8::String> name = args[0]->ToString();
+    name->WriteAscii( nameOfGlobal );
+    }
+  else
+    {
+    THROW_EXCEPTION("First argument was not a String");
+    }
+
+  //
+  // Now we delegate the task to the GT.M interface
+  //
+  obj->Kill( nameOfGlobal, errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    THROW_EXCEPTION( errorMessage );
+    }
+
+  //
+  // TODO: Discuss with community if this return is a good idea...
+  //
+  return scope.Close( args[0]->ToString() );
+}
+
+
+//
+//  Kill a Global in GT.M
+//
+void NodeGTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
+{
+  std::cout << "calling Kill( " << nameOfGlobal << " ) " << std::endl;
+
+  CALLGTM( gtm_ci( "gtmkill", nameOfGlobal, &errorMessage ));
 }
 
 

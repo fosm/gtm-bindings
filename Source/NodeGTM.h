@@ -59,6 +59,7 @@ private:
   static v8::Handle<v8::Value>  New(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Get(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Set(const v8::Arguments& args);
+  static v8::Handle<v8::Value>  Kill(const v8::Arguments& args);
 
   double counter_;
 
@@ -74,6 +75,7 @@ private:
   //
   void Get( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
   void Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage );
+  void Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage );
 };
 
 #endif
