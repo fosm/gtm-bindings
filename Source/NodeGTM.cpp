@@ -47,6 +47,9 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("kill"),
       v8::FunctionTemplate::New(Kill)->GetFunction());
 
+  tpl->PrototypeTemplate()->Set(v8::String::NewSymbol("order"),
+      v8::FunctionTemplate::New(Order)->GetFunction());
+
   v8::Persistent<v8::Function> constructor =
       v8::Persistent<v8::Function>::New( tpl->GetFunction() );
 
@@ -271,6 +274,60 @@ void NodeGTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
   std::cout << "calling Kill( " << nameOfGlobal << " ) " << std::endl;
 
   CALLGTM( gtm_ci( "gtmkill", nameOfGlobal, &errorMessage ));
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+v8::Handle<v8::Value> NodeGTM::Order(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  gtm_char_t valueOfIndex[maxValueLength];
+  gtm_char_t nameOfGlobal[maxValueLength];
+  gtm_char_t errorMessage[maxMessageLength];
+
+  if( args[0]->IsString() )
+    {
+    v8::Local<v8::String> name = args[0]->ToString();
+    name->WriteAscii( nameOfGlobal );
+    }
+  else
+    {
+    THROW_EXCEPTION("Argument was not a String");
+    }
+
+  //
+  // Now we delegate the task to the GT.M interface
+  //
+  obj->Order( nameOfGlobal, valueOfIndex, errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    THROW_EXCEPTION( errorMessage );
+    }
+
+  return scope.Close(v8::String::New( valueOfIndex ));
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+void NodeGTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
+{
+  std::cout << "calling Order( " << nameOfGlobal << " ) " << std::endl;
+
+  gtm_string_t p_value;
+
+  p_value.address = ( xc_char_t *) &valueOfIndex;
+  p_value.length = maxValueLength ;
+
+
+  CALLGTM( gtm_ci( "gtmorder", nameOfGlobal, &p_value, &errorMessage ));
 }
 
 

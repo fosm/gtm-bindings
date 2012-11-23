@@ -5,6 +5,18 @@ var gtm = require('./gtm');
 var db = new gtm.Database();
 
 // Set a global
+db.set('^Fibonacci(1)','1');
+db.set('^Fibonacci(2)','1');
+db.set('^Fibonacci(3)','2');
+db.set('^Fibonacci(4)','3');
+db.set('^Fibonacci(5)','5');
+db.set('^Fibonacci(6)','8');
+
+// Get the index that follows 4, it should be 5.
+var nextindex = db.order('^Fibonacci(4)');
+console.log('next index ='+nextindex);
+
+// Set a global
 db.set('^Apoptosis','Life is short');
 
 // Kill the global
