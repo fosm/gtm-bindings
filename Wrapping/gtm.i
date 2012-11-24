@@ -15,7 +15,7 @@
 *  limitations under the License.
 *
 *=========================================================================*/
-%module GTM
+%module gtm
 
 // Remove some warnings
 #pragma SWIG nowarn=511

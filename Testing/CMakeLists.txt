@@ -16,6 +16,12 @@ configure_file(
   ${GTM_ROUTINES}/test002.m
   )
 
+configure_file(
+  ${PROJECT_SOURCE_DIR}/Testing/runNode.sh.in
+  ${LIBRARY_OUTPUT_PATH}/runNode.sh
+  )
+
+
 add_executable(test001 test001.c)
 target_link_libraries(test001 gtmshr)
 add_test(Test001 ${TESTBIN}/test001)
