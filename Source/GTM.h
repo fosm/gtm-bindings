@@ -72,6 +72,12 @@ public:
   void Order( const std::string & nameOfGlobal, std::string & valueOfIndex );
   void Query( const std::string & nameOfGlobal, std::string & valueOfIndex );
 
+  //
+  //  Methods that return values by copy.
+  //
+  std::string Get( const std::string & nameOfGlobal );
+  std::string Order( const std::string & nameOfGlobal );
+  std::string Query( const std::string & nameOfGlobal );
 
 private:
 

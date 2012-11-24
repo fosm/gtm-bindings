@@ -21,7 +21,10 @@
 #pragma SWIG nowarn=511
 
 // Use exceptions
-%include "exception.i"
+%include <exception.i>
+
+// Support Strings
+%include <std_string.i>
 
 // Customize exception handling
 %exception {

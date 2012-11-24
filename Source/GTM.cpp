@@ -207,3 +207,44 @@ void GTM::Query( const std::string & globalName, std::string & indexValue )
 
   indexValue = this->valueOfIndex;
 }
+
+
+//
+//  Get the value of a Global from GT.M
+//
+std::string GTM::Get( const std::string & globalName )
+{
+  this->Get( globalName.c_str(), this->valueOfGlobal, this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  return this->valueOfGlobal;
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+std::string GTM::Order( const std::string & globalName )
+{
+  this->Order( globalName.c_str(), this->valueOfIndex, this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  return this->valueOfIndex;
+}
+
+
+//
+//  Get the value of the next index in a Global from GT.M
+//
+std::string GTM::Query( const std::string & globalName )
+{
+  this->Query( globalName.c_str(), this->valueOfIndex, this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  return this->valueOfIndex;
+}
+
+
