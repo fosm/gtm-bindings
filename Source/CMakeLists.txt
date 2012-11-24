@@ -17,7 +17,7 @@ configure_file(
   ${EXECUTABLE_OUTPUT_PATH}/setupEnvironment.sh
   )
 
-add_library(cppgtm SHARED GTM.cpp)
+add_library(cppgtm GTM.cpp)
 target_link_libraries(cppgtm ${GTM_LIBRARY})
 
 add_library(nodegtm SHARED NodeAddon.cpp NodeGTM.cpp)

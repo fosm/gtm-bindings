@@ -37,6 +37,16 @@ configure_file(
   ${PROJECT_BINARY_DIR}/Source/mjsConfigure.h
   )
 
+# The fPIC flags is used to create position independent code.
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag( "-fPIC" CXX_HAS_fPIC )
+if( CXX_HAS_fPIC )
+  if(NOT "${CMAKE_CXX_FLAGS}" MATCHES "-fPIC")
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+  endif()
+endif( )
+
+
 #
 # Set up CPack support
 #
