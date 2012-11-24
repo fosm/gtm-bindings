@@ -84,6 +84,9 @@ void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmget", globalName, &p_value, &errorMessage ));
+
+  // Add null terminator in string
+  globalValue[p_value.length]='\0';
 }
 
 
@@ -129,6 +132,9 @@ void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmorder", nameOfGlobal, &p_value, &errorMessage ));
+
+  // Add null terminator in string
+  valueOfIndex[p_value.length]='\0';
 }
 
 
@@ -145,6 +151,9 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
   p_value.length = maxValueLength ;
 
   CALLGTM( gtm_ci( "gtmquery", nameOfGlobal, &p_value, &errorMessage ));
+
+  // Add null terminator in string
+  valueOfIndex[p_value.length]='\0';
 }
 
 
