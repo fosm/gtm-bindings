@@ -21,4 +21,12 @@
    import operator
 %}
 
+%rename(set)      Set;
+%rename(get)      Get;
+%rename(order)    Order;
+%rename(query)    Query;
+%rename(kill)     Kill;
+%rename(about)    About;
+%rename(version)  Version;
+
 #endif

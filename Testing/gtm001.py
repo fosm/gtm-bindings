@@ -3,23 +3,23 @@ from gtm import GTM
 
 db = GTM()
 
-print db.About()
+print db.about()
 
-print db.Version()
+print db.version()
 
-db.Set("^Capital","Washington")
+db.set("^Capital","Washington")
 
-value = db.Get("^Capital")
+value = db.get("^Capital")
 
 print value
 
-db.Kill("^Capital")
+db.kill("^Capital")
 
-db.Set('^Person(1,"name",)',"John Lennon");
-db.Set('^Person(1,"address")',"Abby Road");
+db.set('^Person(1,"name",)',"John Lennon");
+db.set('^Person(1,"address")',"Abby Road");
 
-print db.Query('^Person(1)')
+print db.query('^Person(1)')
 
-print db.Order('^Person(1,"address")')
+print db.order('^Person(1,"address")')
 
 # help(db)
