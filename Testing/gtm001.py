@@ -7,6 +7,8 @@ print db.about()
 
 print db.version()
 
+db.lock("^Capital")
+
 db.set("^Capital","Washington")
 
 value = db.get("^Capital")
@@ -15,9 +17,9 @@ print value
 
 db.kill("^Capital")
 
-db.set('^Person(1,"name")',"John Lennon");
-db.set('^Person(1,"address")',"Abby Road");
-db.set('^Person(1,"phone")',"555-1234");
+db.set('^Person(1,"name")',"John Lennon")
+db.set('^Person(1,"address")',"Abby Road")
+db.set('^Person(1,"phone")',"555-1234")
 
 print db.query('^Person(1)')
 

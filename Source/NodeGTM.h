@@ -46,6 +46,7 @@ private:
   static v8::Handle<v8::Value>  Order(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Query(const v8::Arguments& args);
   static v8::Handle<v8::Value>  Execute(const v8::Arguments& args);
+  static v8::Handle<v8::Value>  Lock(const v8::Arguments& args);
 
   void * gtmConnection;
 };

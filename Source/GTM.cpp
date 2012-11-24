@@ -169,6 +169,17 @@ void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
 
 
 //
+//   Lock a global in GT.M
+//
+void GTM::Lock( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
+{
+  std::cout << "calling Lock( " << nameOfGlobal << " ) " << std::endl;
+
+  CALLGTM( gtm_ci( "gtmlock", nameOfGlobal, &errorMessage ));
+}
+
+
+//
 //  Get the value of a Global from GT.M
 //
 void GTM::Get( const std::string & globalName, std::string & globalValue )
@@ -235,6 +246,17 @@ void GTM::Query( const std::string & globalName, std::string & indexValue )
 void GTM::Execute( const std::string & textOfCode )
 {
   this->Execute( textOfCode.c_str(), this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+}
+
+
+//
+//   Lock a global in GT.M
+//
+void GTM::Lock( const std::string & nameOfGlobal )
+{
+  this->Lock( nameOfGlobal.c_str(), this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 }

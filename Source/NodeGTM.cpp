@@ -51,6 +51,7 @@ void NodeGTM::Initialize( v8::Handle<v8::Object> target)
   FUNCTION_PROTOTYPE("version",Version);
   FUNCTION_PROTOTYPE("about",About);
   FUNCTION_PROTOTYPE("execute",Execute);
+  FUNCTION_PROTOTYPE("lock",Lock);
 
   v8::Persistent<v8::Function> constructor =
       v8::Persistent<v8::Function>::New( tpl->GetFunction() );
@@ -396,6 +397,43 @@ v8::Handle<v8::Value> NodeGTM::Execute(const v8::Arguments& args)
   GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
 
   gtm->Execute( textOfCode, errorMessage );
+
+  if ( strlen( errorMessage ) != 0 )
+    {
+    THROW_EXCEPTION( errorMessage );
+    }
+
+  return scope.Close(v8::String::New( errorMessage ));
+}
+
+//
+//  Lock a Global in GT.M
+//
+v8::Handle<v8::Value> NodeGTM::Lock(const v8::Arguments& args)
+{
+  v8::HandleScope scope;
+
+  gtm_char_t nameOfGlobal[maxValueLength];
+  gtm_char_t errorMessage[maxMessageLength];
+
+  if( args[0]->IsString() )
+    {
+    v8::Local<v8::String> name = args[0]->ToString();
+    name->WriteAscii( nameOfGlobal );
+    }
+  else
+    {
+    THROW_EXCEPTION("Argument was not a String");
+    }
+
+  //
+  // Now we delegate the task to the GT.M interface
+  //
+  NodeGTM * obj = ObjectWrap::Unwrap<NodeGTM >( args.This() );
+
+  GTM * gtm = static_cast< GTM * >( obj->gtmConnection );
+
+  gtm->Lock( nameOfGlobal, errorMessage );
 
   if ( strlen( errorMessage ) != 0 )
     {

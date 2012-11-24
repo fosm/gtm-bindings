@@ -62,6 +62,7 @@ public:
   void Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage );
   void Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
   void Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage );
+  void Lock( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage );
   void Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage );
 
   //
@@ -72,6 +73,7 @@ public:
   void Kill( const std::string & nameOfGlobal );
   void Order( const std::string & nameOfGlobal, std::string & valueOfIndex );
   void Query( const std::string & nameOfGlobal, std::string & valueOfIndex );
+  void Lock( const std::string & nameOfGlobal );
   void Execute( const std::string & textOfCode );
 
   //

@@ -11,6 +11,8 @@ console.log('Version: ' + db.version());
 
 console.log('About: ' + db.about());
 
+db.lock('^Fibonacci');
+
 // Set a global
 db.set('^Fibonacci(1)','1');
 db.set('^Fibonacci(2)','1');
