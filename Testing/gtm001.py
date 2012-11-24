@@ -15,8 +15,9 @@ print value
 
 db.kill("^Capital")
 
-db.set('^Person(1,"name",)',"John Lennon");
+db.set('^Person(1,"name")',"John Lennon");
 db.set('^Person(1,"address")',"Abby Road");
+db.set('^Person(1,"phone")',"555-1234");
 
 print db.query('^Person(1)')
 
