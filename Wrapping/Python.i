@@ -28,5 +28,6 @@
 %rename(kill)     Kill;
 %rename(about)    About;
 %rename(version)  Version;
+%rename(execute)  Execute;
 
 #endif

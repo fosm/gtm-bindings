@@ -23,4 +23,6 @@ print db.query('^Person(1)')
 
 print db.order('^Person(1,"address")')
 
+db.execute('write $ZVERSION,!')
+
 # help(db)

@@ -22,3 +22,5 @@ console.log('^Person '+name);
 // Kill the global
 db.kill('^Person');
 
+db.execute('write $ZVERSION,!');
+

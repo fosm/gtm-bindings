@@ -8,4 +8,4 @@ cat("About :", db.About(), "\n")
 
 cat("Version :", db.Version(), "\n")
 
-
+db.Execute('write $ZVERSION,!')

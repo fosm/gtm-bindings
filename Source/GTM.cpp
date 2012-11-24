@@ -158,6 +158,17 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 
 
 //
+//   Execute M code passed in an input string to GT.M
+//
+void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
+{
+  std::cout << "calling Execute( " << textOfCode << " ) " << std::endl;
+
+  CALLGTM( gtm_ci( "gtmxecute", textOfCode, &errorMessage ));
+}
+
+
+//
 //  Get the value of a Global from GT.M
 //
 void GTM::Get( const std::string & globalName, std::string & globalValue )
@@ -219,6 +230,17 @@ void GTM::Query( const std::string & globalName, std::string & indexValue )
 
 
 //
+//   Execute M code passed in an input string to GT.M
+//
+void GTM::Execute( const std::string & textOfCode )
+{
+  this->Execute( textOfCode.c_str(), this->errorMessage );
+
+  THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+}
+
+
+//
 //  Get the value of a Global from GT.M
 //
 std::string GTM::Get( const std::string & globalName )
@@ -255,5 +277,4 @@ std::string GTM::Query( const std::string & globalName )
 
   return this->valueOfIndex;
 }
-
 
