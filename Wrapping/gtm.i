@@ -49,6 +49,7 @@
 
 // Language Specific Sections
 %include Python.i
+%include R.i
 
 
 // Classes to be wrapped
