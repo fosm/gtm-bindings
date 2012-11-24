@@ -22,3 +22,12 @@ If you want to wrap for Python you should also do
    sudo apt-get install python-dev
    sudo apt-get install swig
 
+If you want to wrap for R you should also do
+
+   sudo apt-get install r-base
+   sudo apt-get install r-base-dev
+   sudo apt-get install swig
+
+More details at:
+http://cran.r-project.org/bin/linux/ubuntu/README
+
