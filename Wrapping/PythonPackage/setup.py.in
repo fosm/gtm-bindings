@@ -1,5 +1,5 @@
 from distribute_setup import use_setuptools
-use_setuptools(version="0.6c11")
+use_setuptools(version="0.6.11")
 
 from distutils.core import setup
 from distutils.sysconfig import get_python_lib
