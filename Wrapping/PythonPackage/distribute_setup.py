@@ -48,7 +48,7 @@ except ImportError:
 
 DEFAULT_VERSION = "0.6.28"
 DEFAULT_URL = "http://pypi.python.org/packages/source/d/distribute/"
-SETUPTOOLS_FAKED_VERSION = "0.6c11"
+SETUPTOOLS_FAKED_VERSION = "0.6.28"
 
 SETUPTOOLS_PKG_INFO = """\
 Metadata-Version: 1.0

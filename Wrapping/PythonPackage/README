@@ -1,0 +1,23 @@
+How to install.
+
+Once you have finished the build of the Python wrapping via SWIG, as configured
+by CMake:
+
+* Go to the binary directory of the build.
+* Enter the directory "Wrapping"
+* Type the command
+
+      sudo python ./PythonPackage/setup.py install
+
+This will install the files:
+
+     gtm.py
+     gtm.pyc
+
+in the directory:  /usr/local/lib/python2.7/dist-packages
+
+and the file
+
+    _gtm.so
+
+in the directory:  /usr/lib/python2.7/dist-packages

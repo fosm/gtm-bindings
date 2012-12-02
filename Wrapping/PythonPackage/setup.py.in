@@ -1,5 +1,5 @@
 from distribute_setup import use_setuptools
-use_setuptools(version="0.6.11")
+use_setuptools(version="0.6.28")
 
 from distutils.core import setup
 from distutils.sysconfig import get_python_lib
@@ -8,7 +8,7 @@ from distutils.util import get_platform
 import re
 
 
-doc_files = @GTM_DOC_FILES_AS_LIST@
+doc_files = ""
 
 def get_pep386version():
     """This method examines the CMAKE set version variable and the most recent tags to make a pep 386 compliant version string."""
