@@ -18,7 +18,8 @@ if ( WRAP_PYTHON )
   check_PIC_flag ( Python )
 
   find_package ( SWIG 2 REQUIRED )
-  include(${SWIG_USE_FILE})
+  # include(${SWIG_USE_FILE})
+  include(UseSWIGLocal)
 
   find_package ( PythonLibs 2.7 REQUIRED )
   find_package ( PythonInterp 2.7 REQUIRED )
@@ -34,6 +35,20 @@ if ( WRAP_PYTHON )
   SWIG_add_module ( gtm python gtm.i )
   SWIG_link_libraries ( gtm cppgtm ${PYTHON_LIBRARIES})
 
+  # Installation
+  set( GTM_PYTHON_MODULE_DIR "${MJS_BINARY_DIR}/Wrapping" )
+  file(TO_NATIVE_PATH "${GTM_PYTHON_MODULE_DIR}" GTM_NATIVE_PYTHON_MODULE_DIR )
+  get_target_property( GTM_BINARY_MODULE ${SWIG_MODULE_gtm_TARGET_NAME} LOCATION )
+  file(TO_NATIVE_PATH "${GTM_BINARY_MODULE}" GTM_NATIVE_BINARY_MODULE )
+
+  include( ConfigureFileBuildtime )
+  configure_file_buildtime( "${CMAKE_CURRENT_SOURCE_DIR}/PythonPackage/setup.py.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/setup.py" )
+
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/PythonPackage/distribute_setup.py"
+    "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/distribute_setup.py"
+    COPYONLY )
 
   configure_file(
     ${PROJECT_SOURCE_DIR}/Wrapping/setupPythonEnvironment.sh.in

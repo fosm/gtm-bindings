@@ -2,10 +2,16 @@ cmake_minimum_required(VERSION 2.8)
 
 project(mjs)
 
-# MJS version number.
-set(MJS_VERSION_MAJOR "1")
-set(MJS_VERSION_MINOR "0")
-set(MJS_VERSION_PATCH "0")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/CMake")
+
+set(CMAKE_MODULE_PATH
+  ${PROJECT_SOURCE_DIR}/CMake
+  ${PROJECT_BINARY_DIR}/CMake
+  ${CMAKE_MODULE_PATH})
+
+#-----------------------------------------------------------------------------
+# Version information
+include(Version)
 
 # Version string should not include patch level.  The major.minor is
 # enough to distinguish available features of the toolkit.
@@ -13,8 +19,6 @@ set(MJS_VERSION_STRING "${MJS_VERSION_MAJOR}.${MJS_VERSION_MINOR}")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
-
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
 find_package(NodeJS)
 find_package(V8)

@@ -1,0 +1,91 @@
+from distribute_setup import use_setuptools
+use_setuptools(version="0.6c11")
+
+from distutils.core import setup
+from distutils.sysconfig import get_python_lib
+from distutils.core import Extension
+from distutils.util import get_platform
+import re
+
+
+doc_files = @GTM_DOC_FILES_AS_LIST@
+
+def get_pep386version():
+    """This method examines the CMAKE set version variable and the most recent tags to make a pep 386 compliant version string."""
+    mjsMAJOR = "@MJS_VERSION_MAJOR@"
+    mjsMINOR = "@MJS_VERSION_MINOR@"
+    mjsPATCH = "@MJS_VERSION_PATCH@"
+
+    # result of git describe
+    mjsDESCRIBE = "@GIT_TAG@"
+
+    parts = mjsDESCRIBE.split('-')
+
+    tag = parts[0]
+    post = 0
+    if (len(parts) >= 2):
+        post = parts[1]
+    hash = "unknown"
+    if (len(parts) >= 3):
+        gitHash = parts[2]
+
+
+    # we expect the tags to conform to the following pattern "vN.N[.N]+(a|b|c|rc[N]"
+    versionregex = re.compile( "v([0-9]+)\.([0-9]+)(\.([0-9]+))?(a|b|c|rc([0-9]+))?" )
+    result = versionregex.search( tag )
+
+    if ( not result ):
+        version = str(mjsMAJOR)+"."+str(mjsMINOR)+"."+str(mjsPATCH)
+        return version
+
+    tagMAJOR = result.group(1)
+    tagMINOR = result.group(2)
+    # skip group with dot
+    tagPATCH = "0"
+    if (result.group(4)):
+        tagPATCH = result.group(4)
+
+    tagPRERELEASE = ''
+    if (result.group(5)):
+        tagPRERELEASE = result.group(5)
+
+
+
+    version = str(mjsMAJOR)+"."+str(mjsMINOR)+"."+str(mjsPATCH)
+
+    if (len(tagPRERELEASE)):
+        version += tagPRERELEASE
+
+    if((tagMAJOR==mjsMAJOR) and (tagMINOR==mjsMINOR) and (tagPATCH==mjsPATCH)):
+        # tag and version match we should be release
+        if (post!=0 ):
+            version += ".post"+post
+    else:
+         if (post!=0 ):
+             version += ".dev"+post
+
+    return version
+
+
+setup(
+    name = 'gtm',
+    version = get_pep386version(),
+    author = 'OSEHRA',
+    author_email = 'ibanezl@osehra.org',
+    py_modules = ['gtm',],
+    data_files = [(get_python_lib(), [r'@GTM_NATIVE_BINARY_MODULE@'])],
+    download_url = r'https://github.com/OSEHR/m.js',
+    platforms = [],
+    description = r'Bindings to GT.M database.',
+    long_description  = 'Binding to expost GT.M database functionalities through its C API.',
+    classifiers=[
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Topic :: Scientific/Engineering"
+        ],
+    license='Apache',
+    keywords = 'GT.M database',
+    url = r'http://sourceforge.net/projects/fis-gtm/',
+    )
