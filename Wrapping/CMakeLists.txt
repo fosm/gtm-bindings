@@ -51,8 +51,8 @@ if ( WRAP_PYTHON )
     COPYONLY )
 
   configure_file(
-    ${PROJECT_SOURCE_DIR}/Wrapping/setupPythonEnvironment.sh.in
-    ${LIBRARY_OUTPUT_PATH}/setupPythonEnvironment.sh
+    ${PROJECT_SOURCE_DIR}/Wrapping/runPythonTest.sh.in
+    ${LIBRARY_OUTPUT_PATH}/runPythonTest.sh
     )
 
 endif()
