@@ -23,11 +23,25 @@
 
 extern "C" {
 #include "gtmxc_types.h"
+#include <termios.h>
 }
 
 // maximum length of a GT.M message
 #define maxMessageLength 2048
 #define maxValueLength 1048576
+
+// GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
+#define CALLGTMNORETURN(functioncall) \
+  this->functionStatus = functioncall ;		\
+  if (0 != this->functionStatus ) {				\
+    gtm_zstatus( this->statusMessage, maxMessageLength );			\
+    std::cerr << this->statusMessage << std::endl;		\
+    gtm_exit();					\
+    tcsetattr( 2, 0, &stderr_sav );		\
+    tcsetattr( 1, 0, &stdout_sav );		\
+    tcsetattr( 0, 0, &stdin_sav );		\
+  }
+
 
 // GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
 #define CALLGTM(functioncall) \
@@ -36,6 +50,10 @@ extern "C" {
     gtm_zstatus( this->statusMessage, maxMessageLength );			\
     std::cerr << this->statusMessage << std::endl;		\
     gtm_exit();					\
+    tcsetattr( 2, 0, &stderr_sav );		\
+    tcsetattr( 1, 0, &stdout_sav );		\
+    tcsetattr( 0, 0, &stdin_sav );		\
+    return this->functionStatus;      \
   }
 
 
@@ -98,10 +116,52 @@ private:
   //   this class is not used in a multi-threaded environment.
   //
   gtm_char_t   statusMessage[maxMessageLength];
+  gtm_char_t   errorMessage[maxMessageLength];
   gtm_char_t   nameOfGlobal[maxValueLength];
   gtm_char_t   valueOfGlobal[maxValueLength];
   gtm_char_t   valueOfIndex[maxValueLength];
-  gtm_char_t   errorMessage[maxValueLength];
+
+  //
+  //  Function Descriptors
+  //
+  ci_name_descriptor gtmget;
+  ci_name_descriptor gtminit;
+  ci_name_descriptor gtmkill;
+  ci_name_descriptor gtmlock;
+  ci_name_descriptor gtmorder;
+  ci_name_descriptor gtmquery;
+  ci_name_descriptor gtmset;
+  ci_name_descriptor gtmxecute;
+
+  gtm_string_t gtmget_str;
+  gtm_string_t gtminit_str;
+  gtm_string_t gtmkill_str;
+  gtm_string_t gtmlock_str;
+  gtm_string_t gtmorder_str;
+  gtm_string_t gtmquery_str;
+  gtm_string_t gtmset_str;
+  gtm_string_t gtmxecute_str;
+
+  char * gtmget_cstr;
+  char * gtminit_cstr;
+  char * gtmkill_cstr;
+  char * gtmlock_cstr;
+  char * gtmorder_cstr;
+  char * gtmquery_cstr;
+  char * gtmset_cstr;
+  char * gtmxecute_cstr;
+
+  //
+  //  Structure to return values
+  //
+  gtm_string_t p_value;
+
+  //
+  // Terminal Structures
+  //
+  struct termios stderr_sav;
+  struct termios stdin_sav;
+  struct termios stdout_sav;
 };
 
 #endif
