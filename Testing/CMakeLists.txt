@@ -82,3 +82,7 @@ add_executable(gtm009 gtm009.cpp)
 target_link_libraries(gtm009 cppgtm)
 add_test(GTM009 ${TESTBIN}/gtm009)
 
+add_executable(gtm010 gtm010.cpp)
+target_link_libraries(gtm010 cppgtm)
+add_test(GTM010 ${TESTBIN}/gtm010)
+
