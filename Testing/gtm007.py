@@ -2,7 +2,7 @@
 #
 #  Copyright OSEHRA
 #
-#  Licensed under the Apache License, Version 2.0 (the "License")
+#  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
@@ -20,25 +20,24 @@
 # load gtm module
 from gtm import GTM
 
+#
+#  Test the Execute method
+#
+
 db = GTM()
 
-print db.about()
+#
+#   Exercise the string API
+#
 
-print db.version()
+textOfCode = 'write $ZVERSION,!'
 
-db.set("^FibonacciA", "1")
-db.set("^FibonacciB", "1")
+db.execute( textOfCode )
 
-getValue = "Initially empty"
+#
+#   Exercise the same pattern with direct strings
+#
 
-for i in xrange(1,10):
-  db.execute("set ^FibonacciValue=^FibonacciA+^FibonacciB")
-  db.execute("set ^FibonacciB=^FibonacciA")
-  db.execute("set ^FibonacciA=^FibonacciValue")
-  getValue = db.get("^FibonacciValue")
-  print "Fibonacci value = ", getValue
+db.execute( 'write $ZVERSION,!')
 
-db.kill("^FibonacciA")
-db.kill("^FibonacciB")
-db.kill("^FibonacciValue")
 

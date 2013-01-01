@@ -2,6 +2,5 @@
 export GTMCI=@EXECUTABLE_OUTPUT_PATH@/gtm_access.ci
 export LD_LIBRARY_PATH=@LIBRARY_OUTPUT_PATH@
 export PYTHONPATH=@LIBRARY_OUTPUT_PATH@
-cp @PROJECT_SOURCE_DIR@/Testing/$1.py .
-python ./$1.py
+python @PROJECT_SOURCE_DIR@/Testing/$1.py .
 stty sane

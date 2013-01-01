@@ -20,25 +20,26 @@
 # load gtm module
 from gtm import GTM
 
+#
+#  Test the Lock method
+#
+
 db = GTM()
 
-print db.about()
-
-print db.version()
-
-db.set("^FibonacciA", "1")
-db.set("^FibonacciB", "1")
-
+globalName = "^ValueCounter"
+setValue = "0"
 getValue = "Initially empty"
 
-for i in xrange(1,10):
-  db.execute("set ^FibonacciValue=^FibonacciA+^FibonacciB")
-  db.execute("set ^FibonacciB=^FibonacciA")
-  db.execute("set ^FibonacciA=^FibonacciValue")
-  getValue = db.get("^FibonacciValue")
-  print "Fibonacci value = ", getValue
+db.lock( globalName )
 
-db.kill("^FibonacciA")
-db.kill("^FibonacciB")
-db.kill("^FibonacciValue")
+db.set( globalName, setValue )
+
+for i in xrange(0,9):
+  db.execute("set ^ValueCounter=^ValueCounter+1")
+  getValue = db.get( globalName )
+  print "counter = ", getValue
+
+print "Final Counter Value = ", getValue
+
+db.kill( "^ValueCounter" )
 

@@ -2,7 +2,7 @@
 #
 #  Copyright OSEHRA
 #
-#  Licensed under the Apache License, Version 2.0 (the "License")
+#  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
@@ -20,25 +20,19 @@
 # load gtm module
 from gtm import GTM
 
+#
+#  Test the Set, Get and Kill methods
+#
+
 db = GTM()
 
-print db.about()
+globalName = "^Capital"
+setValue = "London"
 
-print db.version()
+db.set( globalName, setValue )
 
-db.set("^FibonacciA", "1")
-db.set("^FibonacciB", "1")
+getValue = db.get( globalName )
 
-getValue = "Initially empty"
+print globalName, " = ", getValue
 
-for i in xrange(1,10):
-  db.execute("set ^FibonacciValue=^FibonacciA+^FibonacciB")
-  db.execute("set ^FibonacciB=^FibonacciA")
-  db.execute("set ^FibonacciA=^FibonacciValue")
-  getValue = db.get("^FibonacciValue")
-  print "Fibonacci value = ", getValue
-
-db.kill("^FibonacciA")
-db.kill("^FibonacciB")
-db.kill("^FibonacciValue")
-
+db.kill( globalName )
