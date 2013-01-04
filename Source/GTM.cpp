@@ -34,8 +34,8 @@
 
 
 #define INITIALIZE_FUNCTION_DESCRIPTOR(functionname) \
-  functionname##_cstr = new char(sizeof(functionname)); \
-  strcpy(functionname##_cstr,#functionname); \
+  functionname##_cstr = new char[sizeof(#functionname)]; \
+  strncpy(functionname##_cstr,#functionname,sizeof(#functionname)); \
   functionname##_str.address = functionname##_cstr;  \
   functionname##_str.length = sizeof(#functionname)-1; \
   functionname.rtn_name=functionname##_str;  \
@@ -68,7 +68,7 @@ GTM::GTM()
   //
   // Initialize GTM
   //
-  CALLGTMNORETURN( gtm_init() );
+  CALLGTM( gtm_init() );
 
   //
   // Initialization - function descriptors for calling in to GT.M
@@ -95,7 +95,7 @@ GTM::GTM()
 GTM::~GTM()
 {
   // Cleanup GT.M runtime
-  CALLGTMNORETURN( gtm_exit() );
+  CALLGTM( gtm_exit() );
 
   //
   // Release resources of function descriptors for calling in to GT.M
@@ -138,12 +138,10 @@ const char * GTM::About() const
 //
 void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Get( " << globalName << " ) " << std::endl;
-
   this->p_value.address = static_cast< gtm_char_t *>( globalValue );
   this->p_value.length = maxValueLength ;
 
-  CALLGTMNORETURN( gtm_cip( &gtmget, globalName, &(this->p_value), &errorMessage ));
+  CALLGTM( gtm_cip( &gtmget, globalName, &(this->p_value), &errorMessage ));
 
   // Add null terminator in string
   globalValue[p_value.length]='\0';
@@ -155,13 +153,11 @@ void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char
 //
 void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Set( " << nameOfGlobal << " ) = " << valueOfGlobal << std::endl;
-
   gtm_char_t * value = const_cast< gtm_char_t *>( valueOfGlobal );
   this->p_value.address = static_cast< gtm_char_t * >( value );
   this->p_value.length = strlen( valueOfGlobal );
 
-  CALLGTMNORETURN( gtm_cip( &(this->gtmset), nameOfGlobal, &(this->p_value), &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmset), nameOfGlobal, &(this->p_value), &errorMessage ));
 }
 
 
@@ -170,9 +166,7 @@ void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal
 //
 void GTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Kill( " << nameOfGlobal << " ) " << std::endl;
-
-  CALLGTMNORETURN( gtm_cip( &(this->gtmkill), nameOfGlobal, &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmkill), nameOfGlobal, &errorMessage ));
 }
 
 
@@ -181,12 +175,10 @@ void GTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 //
 void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Order( " << nameOfGlobal << " ) " << std::endl;
-
   this->p_value.address = static_cast< gtm_char_t *>( valueOfIndex );
   this->p_value.length = maxValueLength ;
 
-  CALLGTMNORETURN( gtm_cip( &(this->gtmorder), nameOfGlobal, &(this->p_value), &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmorder), nameOfGlobal, &(this->p_value), &errorMessage ));
 
   // Add null terminator in string
   valueOfIndex[this->p_value.length]='\0';
@@ -198,12 +190,10 @@ void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 //
 void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Query( " << nameOfGlobal << " ) " << std::endl;
-
   this->p_value.address = static_cast< gtm_char_t *>( valueOfIndex );
   this->p_value.length = maxValueLength ;
 
-  CALLGTMNORETURN( gtm_cip( &(this->gtmquery), nameOfGlobal, &(this->p_value), &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmquery), nameOfGlobal, &(this->p_value), &errorMessage ));
 
   // Add null terminator in string
   valueOfIndex[this->p_value.length]='\0';
@@ -215,9 +205,7 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 //
 void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Execute( " << textOfCode << " ) " << std::endl;
-
-  CALLGTMNORETURN( gtm_cip( &(this->gtmxecute), textOfCode, &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmxecute), textOfCode, &errorMessage ));
 }
 
 
@@ -226,9 +214,7 @@ void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
 //
 void GTM::Lock( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 {
-  std::cout << "calling Lock( " << nameOfGlobal << " ) " << std::endl;
-
-  CALLGTMNORETURN( gtm_cip( &(this->gtmlock), nameOfGlobal, &errorMessage ));
+  CALLGTM( gtm_cip( &(this->gtmlock), nameOfGlobal, &errorMessage ));
 }
 
 

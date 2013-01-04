@@ -30,30 +30,17 @@ extern "C" {
 #define maxMessageLength 2048
 #define maxValueLength 1048576
 
-// GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
-#define CALLGTMNORETURN(functioncall) \
-  this->functionStatus = functioncall ;		\
-  if (0 != this->functionStatus ) {				\
-    gtm_zstatus( this->statusMessage, maxMessageLength );			\
-    std::cerr << this->statusMessage << std::endl;		\
-    gtm_exit();					\
-    tcsetattr( 2, 0, &stderr_sav );		\
-    tcsetattr( 1, 0, &stdout_sav );		\
-    tcsetattr( 0, 0, &stdin_sav );		\
-  }
-
-
-// GT.M call wrapper - if an error in call or untrappable error in GT.M, print error on STDERR, clean up and exit
+// GT.M call wrapper - if an error in call or untrappable
+// error in GT.M, print error on STDERR, clean up and exit
 #define CALLGTM(functioncall) \
   this->functionStatus = functioncall ;		\
   if (0 != this->functionStatus ) {				\
     gtm_zstatus( this->statusMessage, maxMessageLength );			\
     std::cerr << this->statusMessage << std::endl;		\
-    gtm_exit();					\
     tcsetattr( 2, 0, &stderr_sav );		\
     tcsetattr( 1, 0, &stdout_sav );		\
     tcsetattr( 0, 0, &stdin_sav );		\
-    return this->functionStatus;      \
+    gtm_exit();					\
   }
 
 
