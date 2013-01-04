@@ -36,7 +36,7 @@ if ( WRAP_PYTHON )
   SWIG_link_libraries ( gtm cppgtm ${PYTHON_LIBRARIES})
 
   # Installation
-  set( GTM_PYTHON_MODULE_DIR "${MJS_BINARY_DIR}/Wrapping" )
+  set( GTM_PYTHON_MODULE_DIR "${PROJECT_BINARY_DIR}/Wrapping" )
   file(TO_NATIVE_PATH "${GTM_PYTHON_MODULE_DIR}" GTM_NATIVE_PYTHON_MODULE_DIR )
   get_target_property( GTM_BINARY_MODULE ${SWIG_MODULE_gtm_TARGET_NAME} LOCATION )
   file(TO_NATIVE_PATH "${GTM_BINARY_MODULE}" GTM_NATIVE_BINARY_MODULE )
@@ -90,3 +90,5 @@ if ( WRAP_R )
     )
 
 endif()
+
+add_subdirectory(Distribution)
