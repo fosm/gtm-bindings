@@ -20,17 +20,24 @@
 // load gtm module
 var gtm = require('gtm');
 
-// create gtm database connection
+//
+// Test the Execute method
+//
+
 var db = new gtm.Database();
 
-console.log("\n");
-console.log('Node.js Version: ' + process.version);
+//
+//   Exercise the string API
+//
 
-var version = db.version();
+var textOfCode = 'write $ZVERSION,!';
 
-console.log('Version: ' + version );
+db.execute( textOfCode );
 
-var about = db.about();
+//
+//  Exercise the same pattern with direct strings
+//
 
-console.log('About: ' + about );
+db.execute( 'write $ZVERSION,!');
+
 

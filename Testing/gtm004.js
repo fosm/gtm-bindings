@@ -20,17 +20,19 @@
 // load gtm module
 var gtm = require('gtm');
 
-// create gtm database connection
+//
+// Test the Set, Get and Kill methods
+//
+
 var db = new gtm.Database();
 
-console.log("\n");
-console.log('Node.js Version: ' + process.version);
+var globalName = "^Capital";
+var setValue = "London";
 
-var version = db.version();
+db.set( globalName, setValue );
 
-console.log('Version: ' + version );
+var getValue = db.get( globalName );
 
-var about = db.about();
+console.log( globalName + ' = ' + getValue );
 
-console.log('About: ' + about );
-
+db.kill( globalName );

@@ -20,17 +20,18 @@
 // load gtm module
 var gtm = require('gtm');
 
-// create gtm database connection
+//
+// Test the Lock method
+//
+
 var db = new gtm.Database();
 
-console.log("\n");
-console.log('Node.js Version: ' + process.version);
+var globalName = '^Capital("US")';
+var setValue = 'Washington';
 
-var version = db.version();
+db.lock( globalName );
 
-console.log('Version: ' + version );
+db.set( globalName, setValue );
 
-var about = db.about();
-
-console.log('About: ' + about );
+db.kill( globalName );
 

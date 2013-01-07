@@ -20,17 +20,26 @@
 // load gtm module
 var gtm = require('gtm');
 
-// create gtm database connection
+//
+// Test the Lock method
+//
+
 var db = new gtm.Database();
 
-console.log("\n");
-console.log('Node.js Version: ' + process.version);
+var globalName = "^ValueCounter";
+var setValue = "0";
+var getValue = "Initially empty";
 
-var version = db.version();
+db.lock( globalName );
 
-console.log('Version: ' + version );
+db.set( globalName, setValue );
 
-var about = db.about();
+for ( i=0; i<10; i++ ) {
+  db.execute("set ^ValueCounter=^ValueCounter+1");
+  getValue = db.get( globalName );
+  console.log( "counter = " + getValue );
+  }
+console.log( "Final Counter Value = " + getValue );
 
-console.log('About: ' + about );
+db.kill( "^ValueCounter" );
 

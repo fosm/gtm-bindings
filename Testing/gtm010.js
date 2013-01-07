@@ -20,17 +20,25 @@
 // load gtm module
 var gtm = require('gtm');
 
-// create gtm database connection
 var db = new gtm.Database();
 
-console.log("\n");
-console.log('Node.js Version: ' + process.version);
+console.log( db.about() );
 
-var version = db.version();
+console.log( db.version() );
 
-console.log('Version: ' + version );
+db.set("^FibonacciA", "1");
+db.set("^FibonacciB", "1");
 
-var about = db.about();
+getValue = "Initially empty";
 
-console.log('About: ' + about );
+for ( i=0; i<10; i++ ) {
+  db.execute("set ^FibonacciValue=^FibonacciA+^FibonacciB");
+  db.execute("set ^FibonacciB=^FibonacciA");
+  db.execute("set ^FibonacciA=^FibonacciValue");
+  getValue = db.get("^FibonacciValue");
+  console.log( "Fibonacci value = " + getValue );
+}
+db.kill("^FibonacciA");
+db.kill("^FibonacciB");
+db.kill("^FibonacciValue");
 
