@@ -50,11 +50,6 @@ if ( WRAP_PYTHON )
     "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/distribute_setup.py"
     COPYONLY )
 
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/Wrapping/runPythonTest.sh.in
-    ${LIBRARY_OUTPUT_PATH}/runPythonTest.sh
-    )
-
 endif()
 
 

@@ -72,8 +72,9 @@ include(CPack)
 #
 include(CTest)
 
-option( WRAP_PYTHON "Wrap for Python" OFF)
-option( WRAP_R      "Wrap for R"      OFF)
+option( WRAP_NODEJS "Wrap for Node.js" ON )
+option( WRAP_PYTHON "Wrap for Python"  OFF)
+option( WRAP_R      "Wrap for R"       OFF)
 
 add_subdirectory(Source)
 add_subdirectory(Testing)

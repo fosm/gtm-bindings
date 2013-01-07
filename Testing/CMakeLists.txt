@@ -1,7 +1,8 @@
 #
 #  Tests for the C bindings to GT.M
 #
-set(TESTBIN ${EXECUTABLE_OUTPUT_PATH})
+set(TESTBIN "${EXECUTABLE_OUTPUT_PATH}")
+set(TESTDIR "${PROJECT_BINARY_DIR}/Testing")
 
 include_directories(${GTM_DIST})
 link_directories(${GTM_DIST})
@@ -15,12 +16,6 @@ configure_file(
   ${PROJECT_SOURCE_DIR}/Testing/test002.m
   ${GTM_ROUTINES}/test002.m
   )
-
-configure_file(
-  ${PROJECT_SOURCE_DIR}/Testing/runNode.sh.in
-  ${LIBRARY_OUTPUT_PATH}/runNode.sh
-  )
-
 
 add_executable(test001 test001.c)
 target_link_libraries(test001 gtmshr)
@@ -86,8 +81,25 @@ add_executable(gtm010 gtm010.cpp)
 target_link_libraries(gtm010 cppgtm)
 add_test(GTM010 ${TESTBIN}/gtm010)
 
+if(WRAP_NODEJS)
+
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/Testing/runNodeTest.sh.in
+    ${PROJECT_BINARY_DIR}/Testing/runNodeTest.sh
+    )
+
+  set(NODEJSTESTLAUNCHER ${TESTDIR}/runNodeTest.sh)
+  add_test(NODE001 ${NODEJSTESTLAUNCHER} gtm001)
+endif()
+
 if(WRAP_PYTHON)
-  set(PYTHONTESTLAUNCHER ${LIBRARY_OUTPUT_PATH}/runPythonTest.sh)
+
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/Testing/runPythonTest.sh.in
+    ${PROJECT_BINARY_DIR}/Testing/runPythonTest.sh
+    )
+
+  set(PYTHONTESTLAUNCHER ${TESTDIR}/runPythonTest.sh)
   add_test(PYGTM001 ${PYTHONTESTLAUNCHER} gtm001)
   add_test(PYGTM002 ${PYTHONTESTLAUNCHER} gtm002)
   add_test(PYGTM003 ${PYTHONTESTLAUNCHER} gtm003)

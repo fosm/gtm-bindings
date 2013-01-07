@@ -1,6 +1,0 @@
-#!/bin/bash
-export GTMCI=@EXECUTABLE_OUTPUT_PATH@/gtm_access.ci
-cp @PROJECT_SOURCE_DIR@/Testing/gtm001.js .
-cp @PROJECT_SOURCE_DIR@/Testing/gtm002.js .
-nodejs ./gtm001.js
-stty sane

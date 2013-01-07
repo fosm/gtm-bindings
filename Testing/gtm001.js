@@ -1,5 +1,5 @@
 // load gtm module
-var gtm = require('./gtm');
+var gtm = require('gtm');
 
 // create gtm database connection
 var db = new gtm.Database();

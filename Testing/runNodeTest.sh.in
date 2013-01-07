@@ -1,0 +1,6 @@
+#!/bin/bash
+echo `pwd`
+export GTMCI=@EXECUTABLE_OUTPUT_PATH@/gtm_access.ci
+cp @PROJECT_SOURCE_DIR@/Testing/$1.js .
+nodejs $1.js
+stty sane
