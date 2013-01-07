@@ -1,0 +1,45 @@
+Post-Installation
+=================
+
+Now that you have installed the .egg distribution of the python bindings for
+GT.M, you need to perform the following two post-installation steps.
+
+A) Define GTMCI environment variable.
+
+   The GTMCI environment variable must contain the full path
+   to the file gtm_access.ci.
+
+   After installation, this .ci file will in the same directory
+   as this README file.
+
+   for example:
+
+      /usr/local/lib/python2.7/dist-packages/gtm-1.0.0-py2.7.egg/
+
+
+   therefore you can set GTMCI as
+
+    export GTMCI=/usr/local/lib/python2.7/dist-packages/gtm-1.0.0-py2.7.egg/gtm_access.ci
+
+
+B) Copy the _gtmaccess.m file to the directory where you have GT.M routines.
+
+   This typically will be one of the directories that you added to the
+   environment variable gtmroutines when you installed GT.M in your system.
+
+
+Once this two steps have been taken, you should be able to launch python
+and type code similar to:
+
+
+  from gtm import GTM
+
+  db = GTM()
+
+  db.set("^Capital","London")
+
+  capital = db.get("^Capital")
+
+  print "Capital = ", capital
+
+
