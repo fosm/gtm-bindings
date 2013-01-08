@@ -2,7 +2,7 @@ Post-Installation
 =================
 
 Now that you have installed the .egg distribution of the python bindings for
-GT.M, you need to perform the following two post-installation steps.
+GT.M, you need to perform the following three post-installation steps.
 
 A) Define GTMCI environment variable.
 
@@ -28,7 +28,18 @@ B) Copy the _gtmaccess.m file to the directory where you have GT.M routines.
    environment variable gtmroutines when you installed GT.M in your system.
 
 
-Once this two steps have been taken, you should be able to launch python
+C) Add to your LD_LIBRARY_PATH environment variable the directory where you
+   installed GT.M. More precisely, the directory where the GT.M library
+
+                           libgtmshr.so
+
+   is currently located. This will make possible for the Python binding to
+   find the GT.M shared library when you run python scripts. This directory
+   is what you would typically have in the "gtm_dist" environment variable.
+
+
+
+Once this three steps have been taken, you should be able to launch python
 and type code similar to:
 
 
