@@ -81,6 +81,10 @@ add_executable(gtm010 gtm010.cpp)
 target_link_libraries(gtm010 cppgtm)
 add_test(GTM010 ${TESTBIN}/gtm010)
 
+add_executable(gtm011 gtm011.cpp)
+target_link_libraries(gtm011 cppgtm)
+add_test(GTM011 ${TESTBIN}/gtm011)
+
 if(WRAP_NODEJS)
 
   configure_file(
@@ -100,6 +104,7 @@ if(WRAP_NODEJS)
   add_test(NODE008 ${NODEJSTESTLAUNCHER} gtm008)
   add_test(NODE009 ${NODEJSTESTLAUNCHER} gtm009)
   add_test(NODE010 ${NODEJSTESTLAUNCHER} gtm010)
+  add_test(NODE011 ${NODEJSTESTLAUNCHER} gtm011)
 endif()
 
 if(WRAP_PYTHON)
@@ -120,4 +125,5 @@ if(WRAP_PYTHON)
   add_test(PYGTM008 ${PYTHONTESTLAUNCHER} gtm008)
   add_test(PYGTM009 ${PYTHONTESTLAUNCHER} gtm009)
   add_test(PYGTM010 ${PYTHONTESTLAUNCHER} gtm010)
+  add_test(PYGTM011 ${PYTHONTESTLAUNCHER} gtm011)
 endif()
