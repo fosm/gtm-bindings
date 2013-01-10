@@ -86,4 +86,29 @@ if ( WRAP_R )
 
 endif()
 
+
+#
+# Ruby SWIG configuration
+#
+if ( WRAP_RUBY )
+
+  find_package ( SWIG 2 REQUIRED )
+  find_package ( Ruby REQUIRED )
+
+  include_directories ( ${RUBY_INCLUDE_DIRS} )
+
+  # include(${SWIG_USE_FILE})
+  include(UseSWIGLocal)
+
+  # Run swig
+  set(CMAKE_SWIG_FLAGS -autorename -module gtm ${CMAKE_SWIG_GLOBAL_FLAGS})
+  set(CMAKE_SWIG_OUTDIR ${CMAKE_CURRENT_BINARY_DIR})
+  set(SWIG_MODULE_GTM_EXTRA_DEPS ${SWIG_EXTRA_DEPS}
+     ${CMAKE_CURRENT_SOURCE_DIR}/Ruby.i)
+
+  SWIG_add_module ( gtm ruby gtm.i )
+  SWIG_link_libraries ( gtm ${RUBY_LIBRARY} )
+
+endif()
+
 add_subdirectory(Distribution)
