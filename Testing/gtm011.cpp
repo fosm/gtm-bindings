@@ -50,10 +50,10 @@ int main( int argc, char * argv [] )
         gtm.Get( "^FibonacciValue", getValue );
         }
 
-      std::cout << "Fibonacci value = " << getValue << std::endl;
       }
 
-    std::cerr << 
+    std::cout << "Fibonacci value = " << getValue << std::endl;
+
     gtm.Kill( "^FibonacciA" );
     gtm.Kill( "^FibonacciB" );
     gtm.Kill( "^FibonacciValue" );

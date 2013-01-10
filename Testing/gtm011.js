@@ -40,8 +40,9 @@ for ( k=0; k<1000; i++ ) {
     getValue = db.get("^FibonacciValue");
   }
 
-  console.log( "Fibonacci value = " + getValue );
 }
+
+console.log( "Fibonacci value = " + getValue );
 
 db.kill("^FibonacciA");
 db.kill("^FibonacciB");
