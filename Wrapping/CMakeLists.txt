@@ -111,4 +111,35 @@ if ( WRAP_RUBY )
 
 endif()
 
+#
+# Node.js configuration
+#
+if ( WRAP_NODEJS )
+
+  file(GLOB NODEJS_TESTS "${PROJECT_SOURCE_DIR}/Testing/*.js")
+
+  set(NODE_PACKAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/NodePackage")
+  set(MODULE_PACKAGE_DIR "${NODE_PACKAGE_DIR}/node_modules/gtm")
+
+  file(MAKE_DIRECTORY "${MODULE_PACKAGE_DIR}")
+  file(MAKE_DIRECTORY "${MODULE_PACKAGE_DIR}/tests")
+  file(MAKE_DIRECTORY "${MODULE_PACKAGE_DIR}/docs")
+
+  set(SOURCE_NODE_PACKAGE  "${CMAKE_CURRENT_SOURCE_DIR}/NodePackage")
+
+  configure_file(
+    "${SOURCE_NODE_PACKAGE}/package.json.in"
+    "${MODULE_PACKAGE_DIR}/package.json"
+    )
+
+  configure_file(
+    "${SOURCE_NODE_PACKAGE}/README"
+    "${MODULE_PACKAGE_DIR}/docs/README"
+    COPYONLY
+    )
+
+  file(COPY ${NODEJS_TESTS} DESTINATION "${MODULE_PACKAGE_DIR}/tests")
+
+endif()
+
 add_subdirectory(Distribution)

@@ -1,0 +1,7 @@
+This module provides an interface between Node.js and the GT.M database.
+
+It is expected that you have already installed GT.M in your system.
+This module will make available the M database to your nodejs scripts.
+
+See the tests and examples for guidelines on how to use this module.
+
