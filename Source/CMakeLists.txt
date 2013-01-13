@@ -31,14 +31,6 @@ if(WRAP_NODEJS)
     POST_BUILD
     COMMAND ${CMAKE_COMMAND}
     ARGS -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}nodegtm${CMAKE_SHARED_MODULE_SUFFIX}"
-                 "${PROJECT_BINARY_DIR}/Wrapping/NodePackage/node_modules/gtm/gtm.node"
-    COMMENT "Copy the shared library into a file named 'gtm.node' for packaging node.js module."
-    )
-
-  add_custom_command(TARGET nodegtm
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND}
-    ARGS -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}nodegtm${CMAKE_SHARED_MODULE_SUFFIX}"
                  "${PROJECT_BINARY_DIR}/Testing/node_modules/gtm.node"
     COMMENT "Copy the shared library into a file named 'gtm.node' to use as node.js module for testing."
     )

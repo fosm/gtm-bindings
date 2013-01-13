@@ -1,7 +1,38 @@
+ABOUT
+=====
+
 This module provides an interface between Node.js and the GT.M database.
 
 It is expected that you have already installed GT.M in your system.
+
 This module will make available the M database to your nodejs scripts.
 
-See the tests and examples for guidelines on how to use this module.
+See the scripts in the tests directory for guidelines on how to use this
+module.
+
+
+For further details, please see the article:
+
+
+        "GT.M Bindings to NodeJS"
+
+        http://hdl.handle.net/10909/54
+        http://code.osehra.org/journal/browse/publication/25
+
+        OSEHRA Technical Journal
+
+
+
+LICENSING
+=========
+
+
+1) GT.M is distributed under the AGPL 3.0 License by fisglobal.
+
+2) The source code of the GT.M node.js module is distributed
+   under the Apache 2.0 License.
+
+3) The binary build of the gtm binding to nodejs is distributed
+   also under the Apache 2.0 License.
+
 
