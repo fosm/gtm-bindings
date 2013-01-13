@@ -36,3 +36,30 @@ LICENSING
    also under the Apache 2.0 License.
 
 
+
+
+POST-INSTALLATION
+=================
+
+Thanks for installing the gtm module. Now you just need to follow
+these three simple post-installation steps to get your gtm module
+working.
+
+A) Set the GTMCI environment variable to the full path
+   of the gtm_access.ci file.
+
+B) Copy the _gtmaccess.m file in to one of the directories
+   where you have M routines. These directories are the ones
+   that you already include in the gtmroutines environment
+   variable.
+
+C) Add to your LD_LIBRARY_PATH environment variable the
+   directory where you installed GT.M.
+
+More precisely, the directory where the GT.M library
+
+                      libgtmshr.so
+
+You can test your installation with any of the files in the
+test directory.
+

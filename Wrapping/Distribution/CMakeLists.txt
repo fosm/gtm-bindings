@@ -86,8 +86,8 @@ if ( WRAP_NODEJS )
   add_custom_target( dist.Nodejs
     COMMAND ${CMAKE_COMMAND}
       -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}nodegtm${CMAKE_SHARED_MODULE_SUFFIX}"
-              "${BINARY_MODULE_PACKAGE_DIR}/lib/fisgtm.node"
-    COMMENT "Copying gtm shared library into a file named 'fisgtm.node' for packaging node.js module."
+              "${BINARY_MODULE_PACKAGE_DIR}/lib/gtm.node"
+    COMMENT "Copying gtm shared library into a file named 'gtm.node' for packaging node.js module."
     )
 
   add_dependencies( dist.Nodejs nodegtm)
