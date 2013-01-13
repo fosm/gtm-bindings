@@ -44,7 +44,8 @@ if ( WRAP_NODEJS )
 
   file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}")
   file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/tests")
-  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/docs")
+  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/lib")
+  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/resources")
 
   configure_file(
     "${SOURCE_MODULE_PACKAGE_DIR}/package.json.in"
@@ -58,19 +59,19 @@ if ( WRAP_NODEJS )
 
   configure_file(
     "${SOURCE_MODULE_PACKAGE_DIR}/README"
-    "${BINARY_MODULE_PACKAGE_DIR}/docs/README"
+    "${BINARY_MODULE_PACKAGE_DIR}/README"
     COPYONLY
     )
 
   configure_file(
     ${PROJECT_SOURCE_DIR}/Source/gtm_access.ci
-    ${BINARY_MODULE_PACKAGE_DIR}/gtm_access.ci
+    ${BINARY_MODULE_PACKAGE_DIR}/resources/gtm_access.ci
     COPYONLY
     )
 
   configure_file(
     ${PROJECT_SOURCE_DIR}/Source/_gtmaccess.m
-    ${BINARY_MODULE_PACKAGE_DIR}/_gtmaccess.m
+    ${BINARY_MODULE_PACKAGE_DIR}/resources/_gtmaccess.m
     COPYONLY
     )
 
@@ -85,8 +86,8 @@ if ( WRAP_NODEJS )
   add_custom_target( dist.Nodejs
     COMMAND ${CMAKE_COMMAND}
       -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}nodegtm${CMAKE_SHARED_MODULE_SUFFIX}"
-              "${BINARY_MODULE_PACKAGE_DIR}/gtm.node"
-    COMMENT "Copying gtm shared library into a file named 'gtm.node' for packaging node.js module."
+              "${BINARY_MODULE_PACKAGE_DIR}/lib/fisgtm.node"
+    COMMENT "Copying gtm shared library into a file named 'fisgtm.node' for packaging node.js module."
     )
 
   add_dependencies( dist.Nodejs nodegtm)

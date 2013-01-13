@@ -8,11 +8,21 @@
     "type": "git",
     "url": "git://github.com/OSEHRA-Sandbox/m.js.git"
   },
+  "keywords": [
+    "M",
+    "MUMPS",
+    "database",
+    "hierarchical database",
+    "databases",
+    "NoSQL",
+    "GT.M"
+  ],
   "dependencies": {},
   "devDependencies": {},
   "optionalDependencies": {},
   "license" : "Apache 2.0",
   "engines": {
-    "node": "*"
-  }
+    "node": ">=0.6.x"
+  },
+  "main" : "./index.js"
 }
