@@ -2,7 +2,7 @@
   "author": "Luis Ibanez <luis.ibanez@kitware.com> (http://www.osehra.org)",
   "name": "gtm",
   "description": "Binding to the GT.M hierarchical database.",
-  "version": "0.1.0-44-g12519ac",
+  "version": "0.1.0-56-g1b5486c",
   "homepage": "https://github.com/OSEHRA-Sandbox/m.js",
   "repository": {
     "type": "git",
