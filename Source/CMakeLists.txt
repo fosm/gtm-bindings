@@ -20,10 +20,10 @@ configure_file(
 add_library(cppgtm GTM.cpp)
 target_link_libraries(cppgtm ${GTM_LIBRARY})
 
-add_library(nodegtm SHARED NodeAddon.cpp NodeGTM.cpp)
-target_link_libraries(nodegtm ${V8_LIBRARY} cppgtm)
-
 if(WRAP_NODEJS)
+
+  add_library(nodegtm SHARED NodeAddon.cpp NodeGTM.cpp)
+  target_link_libraries(nodegtm ${V8_LIBRARY} cppgtm)
 
   file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/Testing/node_modules/")
 

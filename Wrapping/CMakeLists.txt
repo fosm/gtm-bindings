@@ -92,22 +92,26 @@ endif()
 #
 if ( WRAP_RUBY )
 
+  check_PIC_flag ( Ruby )
+
   find_package ( SWIG 2 REQUIRED )
+  include(${SWIG_USE_FILE})
+
   find_package ( Ruby REQUIRED )
-
   include_directories ( ${RUBY_INCLUDE_DIRS} )
-
-  # include(${SWIG_USE_FILE})
-  include(UseSWIGLocal)
 
   # Run swig
   set(CMAKE_SWIG_FLAGS -autorename -module gtm ${CMAKE_SWIG_GLOBAL_FLAGS})
-  set(CMAKE_SWIG_OUTDIR ${CMAKE_CURRENT_BINARY_DIR})
+  set(CMAKE_SWIG_OUTDIR ${LIBRARY_OUTPUT_PATH})
   set(SWIG_MODULE_GTM_EXTRA_DEPS ${SWIG_EXTRA_DEPS}
      ${CMAKE_CURRENT_SOURCE_DIR}/Ruby.i)
+  SET_SOURCE_FILES_PROPERTIES(gtm.i PROPERTIES CPLUSPLUS ON)
+  SET_SOURCE_FILES_PROPERTIES(gtm.i PROPERTIES CMAKE_SWIG_FLAGS "-includeall")
+  SWIG_add_module ( gtmrb ruby gtm.i )
 
-  SWIG_add_module ( gtm ruby gtm.i )
-  SWIG_link_libraries ( gtm ${RUBY_LIBRARY} )
+  if( RUBY_LIBRARY )
+    SWIG_link_libraries ( gtmrb cppgtm ${RUBY_LIBRARY} )
+  endif()
 
 endif()
 

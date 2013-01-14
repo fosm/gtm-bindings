@@ -97,3 +97,26 @@ if ( WRAP_NODEJS )
 endif()
 
 
+if( WRAP_RUBY )
+
+  file(GLOB RUBY_TESTS "${PROJECT_SOURCE_DIR}/Testing/*.rb")
+
+  set(SOURCE_MODULE_PACKAGE_DIR "${PROJECT_SOURCE_DIR}/Wrapping/RubyPackage")
+  set(BINARY_MODULE_PACKAGE_DIR "${PROJECT_BINARY_DIR}/Wrapping/RubyPackage")
+
+  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}")
+
+  add_custom_target( dist.Ruby
+    COMMAND ${CMAKE_COMMAND}
+      -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}gtmrb${CMAKE_SHARED_MODULE_SUFFIX}"
+              "${BINARY_MODULE_PACKAGE_DIR}/lib/gtm.so"
+    COMMENT "Copying gtm shared library into a file named 'gtm.so' for packaging Ruby module."
+    )
+
+  add_dependencies( dist.Ruby gtmrb )
+
+  add_dependencies( dist dist.Ruby )
+
+endif()
+
+
