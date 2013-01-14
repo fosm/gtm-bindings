@@ -16,13 +16,21 @@
 #
 #=========================================================================*/
 
-require "gtm"
 
-class Test
-   def Execute
-      puts "Hello !"
-   end
-end
+# load gtm module
+require "./gtm"
 
-runner = Test.new()
-runner.Execute
+#
+#  Simply test constructor, destructor and connection to GT.M
+#
+
+db = Gtm::GTM.new()
+
+version = db.version()
+
+puts "Version = ", version
+
+about = db.about()
+
+puts "About = ", about
+
