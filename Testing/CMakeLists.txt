@@ -127,3 +127,25 @@ if(WRAP_PYTHON)
   add_test(PYGTM010 ${PYTHONTESTLAUNCHER} gtm010)
   add_test(PYGTM011 ${PYTHONTESTLAUNCHER} gtm011)
 endif()
+
+if(WRAP_RUBY)
+
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/Testing/runRubyTest.sh.in
+    ${PROJECT_BINARY_DIR}/Testing/runRubyTest.sh
+    )
+
+  set(RUBYTESTLAUNCHER ${TESTDIR}/runRubyTest.sh)
+  add_test(RBGTM001 ${RUBYTESTLAUNCHER} gtm001)
+  add_test(RBGTM002 ${RUBYTESTLAUNCHER} gtm002)
+  add_test(RBGTM003 ${RUBYTESTLAUNCHER} gtm003)
+  add_test(RBGTM004 ${RUBYTESTLAUNCHER} gtm004)
+  add_test(RBGTM005 ${RUBYTESTLAUNCHER} gtm005)
+  add_test(RBGTM006 ${RUBYTESTLAUNCHER} gtm006)
+  add_test(RBGTM007 ${RUBYTESTLAUNCHER} gtm007)
+  add_test(RBGTM008 ${RUBYTESTLAUNCHER} gtm008)
+  add_test(RBGTM009 ${RUBYTESTLAUNCHER} gtm009)
+  add_test(RBGTM010 ${RUBYTESTLAUNCHER} gtm010)
+  add_test(RBGTM011 ${RUBYTESTLAUNCHER} gtm011)
+endif()
+
