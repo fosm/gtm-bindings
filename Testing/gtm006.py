@@ -44,7 +44,7 @@ getValue = db.query( globalName )
 
 print "Query of ", globalName, " = ", getValue
 
-expectedValue = '^Capital("US")';
+expectedValue = '^Capital("US")'
 
 db.kill('^Capital')
 
