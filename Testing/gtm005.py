@@ -22,7 +22,7 @@ import sys
 from gtm import GTM
 
 #
-#  Test the Set, Get and Kill methods
+#  Test the Set, Get and Order methods
 #
 
 db = GTM()
