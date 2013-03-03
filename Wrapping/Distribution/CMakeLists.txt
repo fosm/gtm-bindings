@@ -101,16 +101,23 @@ if( WRAP_RUBY )
 
   file(GLOB RUBY_TESTS "${PROJECT_SOURCE_DIR}/Testing/*.rb")
 
-  set(SOURCE_MODULE_PACKAGE_DIR "${PROJECT_SOURCE_DIR}/Wrapping/RubyPackage")
-  set(BINARY_MODULE_PACKAGE_DIR "${PROJECT_BINARY_DIR}/Wrapping/RubyPackage")
+  set(SOURCE_MODULE_PACKAGE_DIR "${PROJECT_SOURCE_DIR}/Wrapping/RubyGemPackage")
+  set(BINARY_MODULE_PACKAGE_DIR "${PROJECT_BINARY_DIR}/Wrapping/RubyGemPackage")
 
   file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}")
+  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/lib")
+  file(MAKE_DIRECTORY "${BINARY_MODULE_PACKAGE_DIR}/test")
+
+  file(COPY ${RUBY_TESTS} DESTINATION "${BINARY_MODULE_PACKAGE_DIR}/test")
+
+  file(COPY ${SOURCE_MODULE_PACKAGE_DIR}/gtm.gemspec DESTINATION "${BINARY_MODULE_PACKAGE_DIR}")
+  file(COPY ${SOURCE_MODULE_PACKAGE_DIR}/Rakefile    DESTINATION "${BINARY_MODULE_PACKAGE_DIR}")
 
   add_custom_target( dist.Ruby
     COMMAND ${CMAKE_COMMAND}
       -E copy "${LIBRARY_OUTPUT_PATH}/${CMAKE_SHARED_MODULE_PREFIX}gtmrb${CMAKE_SHARED_MODULE_SUFFIX}"
               "${BINARY_MODULE_PACKAGE_DIR}/lib/gtm.so"
-    COMMENT "Copying gtm shared library into a file named 'gtm.so' for packaging Ruby module."
+    COMMENT "Copying gtm shared library into a file named 'gtm' for packaging Ruby module."
     )
 
   add_dependencies( dist.Ruby gtmrb )
