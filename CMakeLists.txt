@@ -20,17 +20,27 @@ set(MJS_VERSION_STRING "${MJS_VERSION_MAJOR}.${MJS_VERSION_MINOR}")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
 
-find_package(NodeJS)
-find_package(V8)
-find_package(GTM)
+if(WRAP_NODEJS)
+    find_package(NodeJS REQUIRED)
+    find_package(V8 REQUIRED)
+endif( )
+find_package(GTM REQUIRED)
 
 include_directories(
-  ${NODEJS_INCLUDE_DIR}
-  ${V8_INCLUDE_DIR}
   ${GTM_DIST}
   ${PROJECT_SOURCE_DIR}/Source
   ${PROJECT_BINARY_DIR}/Source
   )
+
+MESSAGE ("NodeJS:${NODEJS_INCLUDE_DIR}")
+MESSAGE ("V8:${V8_LIBRARY}")
+
+if(WRAP_NODEJS)
+	include_directories(
+  ${NODEJS_INCLUDE_DIR}
+  ${V8_LIBRARY}
+)
+endif( )
 
 link_directories(
   ${GTM_DIST}

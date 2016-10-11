@@ -23,7 +23,7 @@ target_link_libraries(cppgtm ${GTM_LIBRARY})
 if(WRAP_NODEJS)
 
   add_library(nodegtm SHARED NodeAddon.cpp NodeGTM.cpp)
-  target_link_libraries(nodegtm ${V8_LIBRARY} cppgtm)
+  target_link_libraries(nodegtm ${LIBV8_LIBRARY} cppgtm)
 
   file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/Testing/node_modules/")
 
