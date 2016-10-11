@@ -149,6 +149,10 @@ private:
   struct termios stderr_sav;
   struct termios stdin_sav;
   struct termios stdout_sav;
+
+  struct termios stderr_gtm;
+  struct termios stdin_gtm;
+  struct termios stdout_gtm;
 };
 
 #endif

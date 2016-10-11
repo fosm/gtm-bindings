@@ -28,6 +28,9 @@
 #define  THROW_EXCEPTION_IF_ERROR( errorMessage ) \
   if( strlen( errorMessage ) != 0 ) \
     { \
+    tcsetattr( 2, 0, &stderr_sav );\
+    tcsetattr( 1, 0, &stdout_sav );\
+    tcsetattr( 0, 0, &stdin_sav );\
     GTMException excp( errorMessage ); \
     throw(excp); \
     }
@@ -86,6 +89,17 @@ GTM::GTM()
   //
   this->p_value.address = NULL;
   this->p_value.length = 0;
+
+  // Store GT.M terminal parameters
+  tcgetattr( 0, &stdin_gtm );
+  tcgetattr( 1, &stdout_gtm );
+  tcgetattr( 2, &stderr_gtm );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
+
 }
 
 
@@ -94,6 +108,11 @@ GTM::GTM()
 //
 GTM::~GTM()
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   // Cleanup GT.M runtime
   CALLGTM( gtm_exit() );
 
@@ -108,7 +127,7 @@ GTM::~GTM()
   RELEASE_FUNCTION_DESCRIPTOR(gtmset);
   RELEASE_FUNCTION_DESCRIPTOR(gtmxecute);
 
-  // Restore terminal attributes
+  // Restore original terminal attributes
   tcsetattr( 2, 0, &stderr_sav );
   tcsetattr( 1, 0, &stdout_sav );
   tcsetattr( 0, 0, &stdin_sav );
@@ -138,6 +157,11 @@ const char * GTM::About() const
 //
 void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->p_value.address = static_cast< gtm_char_t *>( globalValue );
   this->p_value.length = maxValueLength ;
 
@@ -145,6 +169,11 @@ void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char
 
   // Add null terminator in string
   globalValue[p_value.length]='\0';
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -153,11 +182,21 @@ void GTM::Get( const gtm_char_t * globalName, gtm_char_t * globalValue, gtm_char
 //
 void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   gtm_char_t * value = const_cast< gtm_char_t *>( valueOfGlobal );
   this->p_value.address = static_cast< gtm_char_t * >( value );
   this->p_value.length = strlen( valueOfGlobal );
 
   CALLGTM( gtm_cip( &(this->gtmset), nameOfGlobal, &(this->p_value), &errorMessage ));
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -166,7 +205,17 @@ void GTM::Set( const gtm_char_t * nameOfGlobal, const gtm_char_t * valueOfGlobal
 //
 void GTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   CALLGTM( gtm_cip( &(this->gtmkill), nameOfGlobal, &errorMessage ));
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -175,6 +224,11 @@ void GTM::Kill( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 //
 void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->p_value.address = static_cast< gtm_char_t *>( valueOfIndex );
   this->p_value.length = maxValueLength ;
 
@@ -182,6 +236,11 @@ void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 
   // Add null terminator in string
   valueOfIndex[this->p_value.length]='\0';
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -190,6 +249,11 @@ void GTM::Order( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 //
 void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->p_value.address = static_cast< gtm_char_t *>( valueOfIndex );
   this->p_value.length = maxValueLength ;
 
@@ -197,6 +261,11 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 
   // Add null terminator in string
   valueOfIndex[this->p_value.length]='\0';
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -205,7 +274,17 @@ void GTM::Query( const gtm_char_t * nameOfGlobal, gtm_char_t * valueOfIndex, gtm
 //
 void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   CALLGTM( gtm_cip( &(this->gtmxecute), textOfCode, &errorMessage ));
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -214,7 +293,17 @@ void GTM::Execute( const gtm_char_t * textOfCode, gtm_char_t * errorMessage )
 //
 void GTM::Lock( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   CALLGTM( gtm_cip( &(this->gtmlock), nameOfGlobal, &errorMessage ));
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -223,11 +312,21 @@ void GTM::Lock( const gtm_char_t * nameOfGlobal, gtm_char_t * errorMessage )
 //
 void GTM::Get( const std::string & globalName, std::string & globalValue )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Get( globalName.c_str(), this->valueOfGlobal, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 
   globalValue = this->valueOfGlobal;
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -236,9 +335,19 @@ void GTM::Get( const std::string & globalName, std::string & globalValue )
 //
 void GTM::Set( const std::string & globalName, const std::string & globalValue )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Set( globalName.c_str(), globalValue.c_str(), this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -247,9 +356,19 @@ void GTM::Set( const std::string & globalName, const std::string & globalValue )
 //
 void GTM::Kill( const std::string & globalName )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Kill( globalName.c_str(), this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -258,11 +377,21 @@ void GTM::Kill( const std::string & globalName )
 //
 void GTM::Order( const std::string & globalName, std::string & indexValue )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Order( globalName.c_str(), this->valueOfIndex, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 
   indexValue = this->valueOfIndex;
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -271,11 +400,21 @@ void GTM::Order( const std::string & globalName, std::string & indexValue )
 //
 void GTM::Query( const std::string & globalName, std::string & indexValue )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Query( globalName.c_str(), this->valueOfIndex, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
 
   indexValue = this->valueOfIndex;
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -284,9 +423,19 @@ void GTM::Query( const std::string & globalName, std::string & indexValue )
 //
 void GTM::Execute( const std::string & textOfCode )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Execute( textOfCode.c_str(), this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -295,9 +444,19 @@ void GTM::Execute( const std::string & textOfCode )
 //
 void GTM::Lock( const std::string & nameOfGlobal )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Lock( nameOfGlobal.c_str(), this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 }
 
 
@@ -306,9 +465,19 @@ void GTM::Lock( const std::string & nameOfGlobal )
 //
 std::string GTM::Get( const std::string & globalName )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Get( globalName.c_str(), this->valueOfGlobal, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 
   return this->valueOfGlobal;
 }
@@ -319,9 +488,19 @@ std::string GTM::Get( const std::string & globalName )
 //
 std::string GTM::Order( const std::string & globalName )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Order( globalName.c_str(), this->valueOfIndex, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 
   return this->valueOfIndex;
 }
@@ -332,9 +511,19 @@ std::string GTM::Order( const std::string & globalName )
 //
 std::string GTM::Query( const std::string & globalName )
 {
+  // Restore GT.M terminal parameters
+  tcsetattr( 2, 0, &stderr_gtm );
+  tcsetattr( 1, 0, &stdout_gtm );
+  tcsetattr( 0, 0, &stdin_gtm );
+
   this->Query( globalName.c_str(), this->valueOfIndex, this->errorMessage );
 
   THROW_EXCEPTION_IF_ERROR( this->errorMessage );
+
+  // Restore original parameters
+  tcsetattr( 2, 0, &stderr_sav );
+  tcsetattr( 1, 0, &stdout_sav );
+  tcsetattr( 0, 0, &stdin_sav );
 
   return this->valueOfIndex;
 }
