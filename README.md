@@ -9,7 +9,7 @@ and other languages.
 It is common to use the M database from the M language. This project provides
 equivalent bindings to GT.M from Javascript.
 
-In Linux you need to have installed:
+In Linux, for node.js bindings do: (NOTE - this is currently broken?)
 
     sudo apt-get install nodejs nodejs-dev openssl libssl-dev npm build-essential libv8-dev
 
