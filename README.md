@@ -1,7 +1,7 @@
 gtm-bindings
 ============
 
-Javascript, python 2, ruby and R bindings to the M database
+C++, Javascript, python 2, ruby and R bindings to the M database
 
 The goal of this project is to make the M database GT.M available from Javascript
 and other languages.
@@ -14,6 +14,19 @@ For any of these bindings, copy "Source/_gtmaccess.m" and "Source/gtm_access.ci"
 You need to set the GTMCI environment variable to the location of gtm_access.ci
 
 In bash shell do: export GTMCI=/path/to/gtm_access.ci
+
+C++
+---
+
+Probably easiest if you get Source/GTM.cpp and associated headers and add them to your project. gtm_dist is an environment
+variable pointing at your GT.M installation folder.
+
+Add this argument when compiling: -I$gtm_dist
+
+Add these arguments when linking: -L$gtm_dist -lgtmshr -rpath $gtm_dist 
+
+See http://tinco.pair.com/bhaskar/gtm/doc/books/pg/UNIX_manual/webhelp/content/ch11s05.html#building_stand_alone_programs
+for other compiler settings.
 
 node.js
 -------
