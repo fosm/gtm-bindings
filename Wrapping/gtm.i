@@ -32,13 +32,16 @@
     $action
   } catch( std::runtime_error &ex ) {
     char error_msg[1024];
-    snprintf( error_msg, 1024, "Exception thrown in GTM $symname: %s", ex.what() );
+    snprintf( error_msg, 1024, "Runtime exception thrown in GTM $symname: %s", ex.what() );
     SWIG_exception( SWIG_RuntimeError, error_msg );
-  } catch( ... ) {
+  } catch( std::exception &ex ) {
+    char error_msg[1024];
+    snprintf( error_msg, 1024, "Exception thrown in GTM $symname: %s", ex.what() );
+    SWIG_exception( SWIG_UnknownError, error_msg );
+  }catch( ... ) {
     SWIG_exception( SWIG_UnknownError, "Unknown exception thrown in GTM $symname" );
   }
 }
-
 
 // This section is copied verbatim into the generated source code.
 // Any include files, definitions, etc. need to go here.

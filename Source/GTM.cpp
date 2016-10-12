@@ -40,6 +40,7 @@
     tcsetattr( 2, 0, &stderr_sav );\
     tcsetattr( 1, 0, &stdout_sav );\
     tcsetattr( 0, 0, &stdin_sav );\
+    gtm_zstatus(errorMessage, maxMessageLength);\
     std::runtime_error excp( errorMessage ); \
     throw(excp); \
     }
