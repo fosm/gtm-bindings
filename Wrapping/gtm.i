@@ -30,7 +30,7 @@
 %exception {
   try {
     $action
-  } catch( std::exception &ex ) {
+  } catch( std::runtime_error &ex ) {
     char error_msg[1024];
     snprintf( error_msg, 1024, "Exception thrown in GTM $symname: %s", ex.what() );
     SWIG_exception( SWIG_RuntimeError, error_msg );

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "GTM.h"
-#include "GTMException.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -94,7 +93,7 @@ int main( int argc, char * argv [] )
       }
 
     }
-  catch( GTMException & excp )
+  catch( std::runtime_error & excp )
     {
     std::cerr << excp.what() << std::endl;
     }

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "GTM.h"
-#include "GTMException.h"
 
 #include "mjsConfigure.h"
 
@@ -31,7 +30,7 @@
     tcsetattr( 2, 0, &stderr_sav );\
     tcsetattr( 1, 0, &stdout_sav );\
     tcsetattr( 0, 0, &stdin_sav );\
-    GTMException excp( errorMessage ); \
+    std::runtime_error excp( errorMessage ); \
     throw(excp); \
     }
 
@@ -41,7 +40,7 @@
     tcsetattr( 2, 0, &stderr_sav );\
     tcsetattr( 1, 0, &stdout_sav );\
     tcsetattr( 0, 0, &stdin_sav );\
-    GTMException excp( errorMessage ); \
+    std::runtime_error excp( errorMessage ); \
     throw(excp); \
     }
 

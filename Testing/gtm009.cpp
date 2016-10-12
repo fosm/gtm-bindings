@@ -17,10 +17,10 @@
  *=========================================================================*/
 
 #include "GTM.h"
-#include "GTMException.h"
 
 #include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 
 //
 //  Test the Lock method
@@ -53,7 +53,7 @@ int main( int argc, char * argv [] )
     gtm.Kill( "^ValueCounter" );
 
     }
-  catch( GTMException & excp )
+  catch( std::runtime_error & excp )
     {
     std::cerr << excp.what() << std::endl;
     }
