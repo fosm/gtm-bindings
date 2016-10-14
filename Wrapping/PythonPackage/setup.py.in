@@ -19,7 +19,7 @@ setup(
     author_email = "orders2008 at sheerman-chase.org.uk",
 
     py_modules = ['lib.gtm',],
-    data_files = [(get_python_lib(), [r'@GTM_NATIVE_BINARY_MODULE@', r'@GTM_NATIVE_LIB@']),
+    data_files = [(get_python_lib(), [r'@GTM_NATIVE_BINARY_MODULE@']),
                   (get_python_lib(), [r'@PROJECT_SOURCE_DIR@/Source/gtm_access.ci',
                                       r'@PROJECT_SOURCE_DIR@/Source/_gtmaccess.m',
                                       r'@PROJECT_SOURCE_DIR@/Wrapping/PythonPackage/dist/README']),],
