@@ -33,7 +33,7 @@ node.js
 
 In Linux, for node.js bindings do: (NOTE - this is currently broken?)
 
-    sudo apt-get install nodejs nodejs-dev openssl libssl-dev npm build-essential libv8-dev
+    sudo apt-get install nodejs nodejs-dev openssl libssl-dev npm build-essential libv8-dev cmake
 
     cmake . -DWRAP_NODEJS=ON
 
@@ -52,9 +52,8 @@ If you want to wrap for Python 2 you should do:
 
     make
 
-Unfortunately the egg distribution instructions in Wrapping/PythonPackage/README seem to be broken.
 
-Copy lib/gtm.py and build/Release/_gtm.so to somewhere your python script can find. Load using "import gtm" in python.
+Install locally by: sudo python Wrapping/PythonPackage/setup.py install
 
 Further usage instructions are in Wrapping/PythonPackage/dist/README
 
@@ -69,6 +68,8 @@ If you want to wrap for R you should do:
 
     make
 
+More details about R at: http://cran.r-project.org/bin/linux/ubuntu/README
+
 Ruby
 ----
 
@@ -80,6 +81,4 @@ If you want to wrap for Ruby you should do:
 
     make
 
-More details about R at:
-http://cran.r-project.org/bin/linux/ubuntu/README
 

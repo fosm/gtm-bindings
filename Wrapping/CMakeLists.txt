@@ -40,15 +40,17 @@ if ( WRAP_PYTHON )
   file(TO_NATIVE_PATH "${GTM_PYTHON_MODULE_DIR}" GTM_NATIVE_PYTHON_MODULE_DIR )
   get_target_property( GTM_BINARY_MODULE ${SWIG_MODULE_gtm_TARGET_NAME} LOCATION )
   file(TO_NATIVE_PATH "${GTM_BINARY_MODULE}" GTM_NATIVE_BINARY_MODULE )
+  set( GTM_PYTHON_LIB "${PROJECT_BINARY_DIR}/lib/gtm.py" )
+  file(TO_NATIVE_PATH "${GTM_PYTHON_LIB}" GTM_NATIVE_LIB )
 
   include( ConfigureFileBuildtime )
   configure_file_buildtime( "${CMAKE_CURRENT_SOURCE_DIR}/PythonPackage/setup.py.in"
     "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/setup.py" )
 
-  configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/PythonPackage/distribute_setup.py"
-    "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/distribute_setup.py"
-    COPYONLY )
+  #configure_file(
+  #  "${CMAKE_CURRENT_SOURCE_DIR}/PythonPackage/distribute_setup.py"
+  #  "${CMAKE_CURRENT_BINARY_DIR}/PythonPackage/distribute_setup.py"
+  #  COPYONLY )
 
 endif()
 
