@@ -17,6 +17,7 @@ setup(
     version = "0.1.0",
     author = "Tim Sheerman-Chase, OSEHRA, Samuel Rhody",
     author_email = "orders2008 at sheerman-chase.org.uk",
+    zip_safe = False,
 
     data_files = [('', [r'@GTM_NATIVE_BINARY_MODULE@', r'@GTM_NATIVE_PYTHON_SRC@']),
                   ('', [r'@PROJECT_SOURCE_DIR@/Source/gtm_access.ci',
