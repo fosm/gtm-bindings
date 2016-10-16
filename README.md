@@ -3,11 +3,7 @@ gtm-bindings
 
 C++, Javascript, python 2, ruby and R bindings to the M database
 
-The goal of this project is to make the M database GT.M available from Javascript
-and other languages.
-
-It is common to use the M database from the M language. This project provides
-equivalent bindings to GT.M from Javascript.
+The goal of this project is to make the M database GT.M available from Javascript and other languages. Before attempting to compile, install GT.M and set the GTM_DIST environment variable to the installation folder.
 
 For any of these bindings, copy "Source/_gtmaccess.m" and "Source/gtm_access.ci" to your M scripts folder.
 
